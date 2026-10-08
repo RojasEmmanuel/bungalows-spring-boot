@@ -32,15 +32,6 @@ public class ResponsableService {
         return getDto(responsable);
     }
 
-    @Transactional(readOnly = true)
-    public List<ResponsableResponse> listar(Long colaboradorId){
-
-        return repository.findByColaborador(colaboradorQuery.getById(colaboradorId))
-                .stream()
-                .map(this::getDto)
-                .toList();
-    }
-
     @Transactional
     public ResponsableResponse update(ResponsablePatch patch){
 
@@ -66,6 +57,26 @@ public class ResponsableService {
         return repository.findById(id)
                 .orElseThrow(()->new IllegalArgumentException("NO existe un responsable con este id")
         );
+    }
+
+    @Transactional(readOnly = true)
+    public List<ResponsableResponse> listar(Long colaboradorId){
+
+        return repository.findByColaborador(colaboradorQuery.getById(colaboradorId))
+                .stream()
+                .map(this::getDto)
+                .toList();
+    }
+
+
+    @Transactional(readOnly = true)
+    public ResponsableResponse getResponsable(Long id){
+        Responsable responsable = getById(id);
+        return getDto(responsable);
+    }
+
+    public void eliminar(Long id){
+        repository.delete(getById(id));
     }
 
     private ResponsableResponse getDto(Responsable responsable){

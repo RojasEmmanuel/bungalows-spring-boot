@@ -59,6 +59,14 @@ public class EnumsController {
     }
 
 
+    @GetMapping("/parentescos")
+    public List<EnumOption> parentescos(){
+        return Arrays.stream(Parentescos.values())
+                .map(e -> new EnumOption(e.name(), e.getNombre()))
+                .toList();
+    }
+
+
     /** Todos los enums del formulario de una sola llamada */
     @GetMapping("/colaborador-form")
     public Map<String, List<EnumOption>> colaboradorForm() {
