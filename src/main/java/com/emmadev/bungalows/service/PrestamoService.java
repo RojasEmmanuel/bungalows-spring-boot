@@ -8,13 +8,13 @@ import com.emmadev.bungalows.Enums.EstatusPrestamo;
 import com.emmadev.bungalows.entity.Colaborador;
 import com.emmadev.bungalows.entity.Prestamo;
 import com.emmadev.bungalows.repository.PrestamoRepository;
-import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Entity
+@Service
 @AllArgsConstructor
 public class PrestamoService {
 
