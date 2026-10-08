@@ -28,6 +28,11 @@ public class UbicacionController { // CONTROLADOR PARA MANEJAR OPERACION CRUD DE
         return service.getUbicaciones();
     }
 
+    @GetMapping("/{id}")
+    public UbicacionResponse getUbicacion(@PathVariable Long id){
+        return service.getUbicacion(id);
+    }
+
     @GetMapping("/detail")
     public List<UbicacionDetail> getUbicacionesDetail(){
         return service.ubicacionesDetail();

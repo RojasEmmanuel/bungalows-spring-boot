@@ -86,6 +86,18 @@ public class UbicacionService {
         respository.delete(getUbicacionById(id));
     }
 
+    public UbicacionResponse getUbicacion(Long id){
+        Ubicacion ubicacion = getUbicacionById(id);
+
+        return new UbicacionResponse(
+                ubicacion.getId(),
+                ubicacion.getNombre(),
+                ubicacion.getSlug(),
+                ubicacion.getDireccion(),
+                ubicacion.getImagenPath()
+        );
+    }
+
     protected Ubicacion getUbicacionById(Long id){
         return respository.findById(id).orElseThrow(
                 ()->new IllegalArgumentException("No existe una ubicación con este ID")

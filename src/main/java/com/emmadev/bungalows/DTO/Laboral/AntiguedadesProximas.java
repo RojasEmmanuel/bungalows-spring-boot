@@ -5,6 +5,7 @@ import java.time.LocalDate;
 public record AntiguedadesProximas(
         Long id,
         String nombreColaborador,
+        String fotografia,
         Long diasFaltantes,
         Integer antiguedadProxima,
         LocalDate fechaIngreso,

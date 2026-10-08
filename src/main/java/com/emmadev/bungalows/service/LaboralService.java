@@ -11,6 +11,7 @@ import com.emmadev.bungalows.utils.FechaUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,6 +92,7 @@ public class LaboralService {
         return repository.findAll().stream()
                 .map(this::toAntiguedadProxima)
                 .flatMap(Optional::stream)
+                .sorted(Comparator.comparingLong(AntiguedadesProximas::diasFaltantes))
                 .toList();
     }
 
@@ -102,6 +104,7 @@ public class LaboralService {
         return Optional.of(new AntiguedadesProximas(
                 laboral.getId(),
                 laboral.getColaborador().getNombreCompleto(),
+                laboral.getColaborador().getFotografia(),
                 dias,
                 anios,
                 laboral.getFechaIngreso(),
