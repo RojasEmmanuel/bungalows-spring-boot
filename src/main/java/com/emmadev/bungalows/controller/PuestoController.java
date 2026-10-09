@@ -31,5 +31,4 @@ public class PuestoController {
     public void  eliminar(@PathVariable Long id){
         service.delete(id);
     }
-
 }

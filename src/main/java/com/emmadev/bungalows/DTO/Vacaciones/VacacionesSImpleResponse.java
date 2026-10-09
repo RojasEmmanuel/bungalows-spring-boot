@@ -5,6 +5,7 @@ import java.time.LocalDate;
 public record VacacionesSImpleResponse(
         Long id,
         LocalDate fechaInicio,
-        LocalDate fechaFin
+        LocalDate fechaFin,
+        String estatusVacaciones
 ) {
 }

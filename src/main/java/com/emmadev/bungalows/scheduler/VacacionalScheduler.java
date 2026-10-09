@@ -30,7 +30,7 @@ public class VacacionalScheduler {
      * 0 5 0 * * *  → 00:05 todos los días
      */
     //@Scheduled(cron = "0 5 0 * * *") // todos los dias  las 5:am
-    @Scheduled(cron = "0 30 19 * * *")
+    @Scheduled(cron = "0 06 14 * * *")
     public void crearPeriodosVacacionalesDelDia() {
         int anioActual = LocalDate.now().getYear();
         log.info("=== Iniciando cron de periodos vacacionales ({}) ===", anioActual);

@@ -74,8 +74,13 @@ public class VacacionesService {
                         vacaciones.getPeriodoVacacional().getDiasOcupados() + intervalo
                 );
             }
-
         }
+
+        if(patch.estatusVacaciones() != null){
+            vacaciones.setEstatus(patch.estatusVacaciones());
+        }
+
+        respository.save(vacaciones);
     }
 
     @Transactional(readOnly = true)
@@ -101,7 +106,8 @@ public class VacacionesService {
         return new VacacionesSImpleResponse(
                 vacaciones.getId(),
                 vacaciones.getFechaInicio(),
-                vacaciones.getFechaFin()
+                vacaciones.getFechaFin(),
+                vacaciones.getEstatus().getNombre()
         );
     }
 

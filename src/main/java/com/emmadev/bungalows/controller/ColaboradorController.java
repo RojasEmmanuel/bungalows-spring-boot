@@ -39,4 +39,13 @@ public class ColaboradorController {
     public void update(@RequestBody @Valid ColaboradorPatch patch){
         service.update(patch);
     }
+
+
+    /** Nuevo endpoint: crea N colaboradores de una sola vez */
+    @PostMapping("/batch")
+    public void postColaboradoresBatch(
+            @RequestBody @Valid List<@Valid ColaboradorRequestComplete> dtos
+    ) {
+        dtos.forEach(service::saveColaborador);
+    }
 }

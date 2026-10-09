@@ -110,9 +110,10 @@ public class LaboralService {
 
     private Optional<Aniversarios>  toAniversarios(Laboral laboral){
         long dias = FechaUtils.diasParaProximoAniversario(laboral.getFechaIngreso());
-        if(dias > 0) return  Optional.empty();
-
         int anios = FechaUtils.getAnios(laboral.getFechaIngreso());
+
+        if(dias > 0 || anios==0) return  Optional.empty();
+
         return Optional.of(new Aniversarios(
                 laboral.getId(),
                 laboral.getColaborador().getNombreCompleto(),

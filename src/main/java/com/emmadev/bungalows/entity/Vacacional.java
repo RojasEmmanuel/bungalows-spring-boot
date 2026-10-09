@@ -41,6 +41,7 @@ public class Vacacional {
 
     private Integer anio;
 
+    @Enumerated(EnumType.STRING)
     private VacacionalEstatus estatus;
 
     @ManyToOne(fetch = FetchType.LAZY)

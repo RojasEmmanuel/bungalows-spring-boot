@@ -1,5 +1,6 @@
 package com.emmadev.bungalows.service;
 
+import com.emmadev.bungalows.DTO.Vacacional.VacacionalResponse;
 import com.emmadev.bungalows.Enums.VacacionalEstatus;
 import com.emmadev.bungalows.entity.Colaborador;
 import com.emmadev.bungalows.entity.Laboral;
@@ -10,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -53,6 +55,7 @@ public class VacacionalService {
     //recibe los dias ocupados por vacaciones y actualizar los dias disponibles.
     public void actualizarVacacional(int diasOcupados, Vacacional vacacional){
         vacacional.setDiasDisponibles(vacacional.getDiasDisponibles()-diasOcupados);
+        vacacional.setDiasOcupados(vacacional.getDiasOcupados() + diasOcupados);
 
         if(vacacional.getDiasDisponibles() == 0){
             vacacional.setEstatus(VacacionalEstatus.VENCIDA);
@@ -67,5 +70,22 @@ public class VacacionalService {
                 colaborador,
                 VacacionalEstatus.DISPONIBLE
         );
+    }
+
+    //obtiene los periodos vacacionales activos.
+    public List<VacacionalResponse> getPeriodosVacacionalesActivos(){
+
+        return repository.findByEstatus(VacacionalEstatus.DISPONIBLE).stream().map(
+                vacacional -> new VacacionalResponse(
+                        vacacional.getId(),
+                        vacacional.getColaborador().getNombreCompleto(),
+                        vacacional.getColaborador().getLaboral().getPuesto().getNombre(),
+                        vacacional.getColaborador().getLaboral().getUbicacion().getNombre(),
+                        vacacional.getAntiguedad(),
+                        vacacional.getDiasVacaciones(),
+                        vacacional.getDiasOcupados(),
+                        vacacional.getDiasDisponibles()
+                )
+        ).toList();
     }
 }
