@@ -90,7 +90,6 @@ public class VacacionesService {
                         vacaciones.getFechaFin(),
                         vacaciones.getDiasOcupados(),
                         vacaciones.getEstatus().getNombre()
-
                 )
         ).toList();
     }

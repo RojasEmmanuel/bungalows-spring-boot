@@ -73,6 +73,13 @@ public class EnumsController {
                 .toList();
     }
 
+    @GetMapping("/estatus-vacaciones")
+    public List<EnumOption> estatusVacaciones(){
+        return Arrays.stream(EstatusVacaciones.values())
+                .map(e -> new EnumOption(e.name(), e.getNombre()))
+                .toList();
+    }
+
 
     /** Todos los enums del formulario de una sola llamada */
     @GetMapping("/colaborador-form")
