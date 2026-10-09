@@ -2,9 +2,7 @@ package com.emmadev.bungalows.Enums;
 
 public enum EstatusVacaciones {
     AGENDADA("Agendada"),
-    EN_CURSO("En curso"),
-    FINALIZADA("Finalizada"),
-    RECHAZADA("Rechazada");
+    PAGADA("Pagada");
 
     private final String nombre;
     EstatusVacaciones(String nombre){

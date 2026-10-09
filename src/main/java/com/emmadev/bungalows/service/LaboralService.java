@@ -1,6 +1,7 @@
 package com.emmadev.bungalows.service;
 
 import com.emmadev.bungalows.DTO.Colaborador.ColaboradorRequestComplete;
+import com.emmadev.bungalows.DTO.Laboral.Aniversarios;
 import com.emmadev.bungalows.DTO.Laboral.LaboralPatch;
 import com.emmadev.bungalows.DTO.Laboral.LaboralResponse;
 import com.emmadev.bungalows.DTO.Laboral.AntiguedadesProximas;
@@ -10,6 +11,7 @@ import com.emmadev.bungalows.repository.LaboralRepository;
 import com.emmadev.bungalows.utils.FechaUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
@@ -88,6 +90,7 @@ public class LaboralService {
         repository.save(laboral);
     }
 
+    @Transactional(readOnly = true)
     public List<AntiguedadesProximas> getAntiguedadesProximas() {
         return repository.findAll().stream()
                 .map(this::toAntiguedadProxima)
@@ -96,9 +99,35 @@ public class LaboralService {
                 .toList();
     }
 
+
+    @Transactional(readOnly = true)
+    public List<Aniversarios> getAniversarios() {
+        return repository.findAll().stream()
+                .map(this::toAniversarios)
+                .flatMap(Optional::stream)
+                .toList();
+    }
+
+    private Optional<Aniversarios>  toAniversarios(Laboral laboral){
+        long dias = FechaUtils.diasParaProximoAniversario(laboral.getFechaIngreso());
+        if(dias > 0) return  Optional.empty();
+
+        int anios = FechaUtils.getAnios(laboral.getFechaIngreso());
+        return Optional.of(new Aniversarios(
+                laboral.getId(),
+                laboral.getColaborador().getNombreCompleto(),
+                laboral.getPuesto().getNombre(),
+                laboral.getUbicacion().getNombre(),
+                laboral.getColaborador().getFotografia(),
+                laboral.getFechaIngreso(),
+                FechaUtils.getDiasVacaciones(anios),
+                anios
+        ));
+    }
+
     private Optional<AntiguedadesProximas> toAntiguedadProxima(Laboral laboral) {
         long dias = FechaUtils.diasParaProximoAniversario(laboral.getFechaIngreso());
-        if (dias > 60) return Optional.empty();
+        if (dias > 60 || dias == 0) return Optional.empty();
 
         int anios = FechaUtils.getAnios(laboral.getFechaIngreso()) + 1;
         return Optional.of(new AntiguedadesProximas(

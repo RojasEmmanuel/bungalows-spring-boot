@@ -1,6 +1,7 @@
 package com.emmadev.bungalows.utils;
 
 import java.time.LocalDate;
+import java.time.MonthDay;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
 
@@ -38,17 +39,24 @@ public class FechaUtils {
 
     public static long diasParaProximoAniversario(LocalDate fecha) {
         LocalDate hoy = LocalDate.now();
+        MonthDay mesDia = MonthDay.from(fecha);
 
-        // Próximo aniversario en el año actual
-        LocalDate proximo = fecha.withYear(hoy.getYear());
+        LocalDate proximo = mesDia.atYear(hoy.getYear());
 
-        // Si ya pasó (o es hoy), usar el año siguiente
-        if (!proximo.isAfter(hoy)) {
-            proximo = proximo.withYear(hoy.getYear() + 1);
+        // Si ya pasó, saltar al año siguiente. Si es hoy, se queda en 0.
+        if (proximo.isBefore(hoy)) {
+            proximo = mesDia.atYear(hoy.getYear() + 1);
         }
 
         return ChronoUnit.DAYS.between(hoy, proximo);
     }
 
+    public static int getIntervaloFechas(LocalDate inicio, LocalDate fin){
 
+        if(inicio==null || fin==null){
+            throw  new IllegalArgumentException("Ni una fecha puede ser nula");
+        }
+
+        return ((int) ChronoUnit.DAYS.between(inicio, fin));
+    }
 }

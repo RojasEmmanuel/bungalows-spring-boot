@@ -1,5 +1,6 @@
 package com.emmadev.bungalows.controller;
 
+import com.emmadev.bungalows.DTO.Laboral.Aniversarios;
 import com.emmadev.bungalows.DTO.Laboral.LaboralPatch;
 import com.emmadev.bungalows.DTO.Laboral.AntiguedadesProximas;
 import com.emmadev.bungalows.DTO.Laboral.LaboralResponse;
@@ -25,6 +26,11 @@ public class LaboralController {
     @GetMapping("/antiguedades")
     public List<AntiguedadesProximas> antiguedadesProximas(){
         return service.getAntiguedadesProximas();
+    }
+
+    @GetMapping("/aniversarios")
+    public List<Aniversarios> aniversarios(){
+        return service.getAniversarios();
     }
 
     @PatchMapping

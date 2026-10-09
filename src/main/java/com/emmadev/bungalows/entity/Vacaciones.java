@@ -34,10 +34,4 @@ public class Vacaciones {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vacacional_id")
     private Vacacional periodoVacacional;
-
-
-    @PrePersist
-    public void prepersist(){
-        this.estatus = EstatusVacaciones.AGENDADA;
-    }
 }
