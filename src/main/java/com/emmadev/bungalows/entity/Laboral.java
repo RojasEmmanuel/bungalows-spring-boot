@@ -12,6 +12,8 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -46,6 +48,7 @@ public class Laboral {
     @JoinColumn(name = "colaborador_id", referencedColumnName = "id")
     private Colaborador colaborador;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ubicacion_id")
     private Ubicacion ubicacion;
@@ -53,6 +56,11 @@ public class Laboral {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "puesto_id")
     private Puesto puesto;
+
+
+    @OneToMany(mappedBy = "laboral", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Vacaciones> vacaciones = new ArrayList<>();
+
 }
 
 

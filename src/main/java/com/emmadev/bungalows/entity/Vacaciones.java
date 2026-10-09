@@ -28,10 +28,18 @@ public class Vacaciones {
     @Column(name = "fecha_fin")
     private LocalDate fechaFin;
 
+    @Column(name = "dias_ocupados")
+    private Integer diasOcupados;
+
+
     @Enumerated(EnumType.STRING)
     private EstatusVacaciones estatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vacacional_id")
     private Vacacional periodoVacacional;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "laboral_id")
+    private Laboral laboral;
 }
