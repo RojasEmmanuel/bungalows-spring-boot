@@ -135,6 +135,8 @@ public class LaboralService {
                 laboral.getId(),
                 laboral.getColaborador().getNombreCompleto(),
                 laboral.getColaborador().getFotografia(),
+                laboral.getPuesto().getNombre(),
+                laboral.getUbicacion().getNombre(),
                 dias,
                 anios,
                 laboral.getFechaIngreso(),
