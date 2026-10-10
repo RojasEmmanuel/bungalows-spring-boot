@@ -8,8 +8,8 @@ public record PrestamoResponse(
         String nombreColaborador,
         String puestoColaborador,
         String ubicacionColaborador,
-
         BigDecimal monto,
+        BigDecimal montoPagado,
         LocalDate fechaPrestamo,
         LocalDate fechaPago,
         String estatus,

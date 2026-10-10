@@ -1,6 +1,7 @@
 package com.emmadev.bungalows.DTO.Prestamo;
 
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 
@@ -10,6 +11,8 @@ import java.time.LocalDate;
 public record PrestamoRequest(
         @DecimalMin(value = "1.0", message = "cuando menos debe prestar $1.0")
         BigDecimal monto,
+        @NotBlank(message = "Es necesario especificar el concepto")
+        String concepto,
         @PastOrPresent(message = "la fecha no puede ser futura")
         LocalDate fechaPrestamo,
         String observaciones,

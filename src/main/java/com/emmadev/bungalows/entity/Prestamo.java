@@ -23,6 +23,8 @@ public class Prestamo {
     private Long id;
 
     private BigDecimal monto;
+    private BigDecimal montoPagado; // al inicio es 0
+    private String concepto;
 
     @Column(name = "fecha_prestamo")
     private LocalDate fechaPrestamo;
@@ -42,5 +44,6 @@ public class Prestamo {
     @PrePersist // al registrar un nuevo prestamo por defautl se registra como prestado
     private void prepersist(){
         this.estatus = EstatusPrestamo.PRESTADO;
+        this.montoPagado = BigDecimal.ZERO;
     }
 }
