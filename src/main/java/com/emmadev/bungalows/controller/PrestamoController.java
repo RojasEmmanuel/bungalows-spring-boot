@@ -16,11 +16,6 @@ public class PrestamoController {
 
     private final PrestamoService service;
 
-    @PostMapping
-    public PrestamoResponse registrar(@RequestBody @Valid PrestamoRequest request){
-        return service.savePrestamo(request);
-    }
-
     //lista las deudas en info general
     @GetMapping
     public List<DeudaResponse> getDeudas(){
@@ -33,9 +28,19 @@ public class PrestamoController {
         return service.getPrestamos(colaboradorId);
     }
 
+    @PostMapping
+    public PrestamoResponse registrar(@RequestBody @Valid PrestamoRequest request){
+        return service.savePrestamo(request);
+    }
+
     @PatchMapping("/colaborador/{colaboradorId}/{abono}")
     public void abonarByColaborador(@PathVariable Long colaboradorId, @PathVariable BigDecimal abono){
         service.abonarPrestamos(colaboradorId, abono);
+    }
+
+    @PatchMapping("/cancelar/{id}")
+    public void cancelarPrestamo(@PathVariable Long id){
+        service.cancelarPrestamo(id);
     }
 
     @PatchMapping("/{id}/{abono}")

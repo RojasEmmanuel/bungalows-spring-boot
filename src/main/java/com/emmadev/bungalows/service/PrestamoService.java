@@ -256,6 +256,13 @@ public class PrestamoService {
         ));
     }
 
+    @Transactional
+    public void cancelarPrestamo(Long id){
+        Prestamo prestamo = getById(id);
+        prestamo.setEstatus(EstatusPrestamo.CANCELADO);
+        repository.save(prestamo);
+    }
+
 
     // consulta todos los prestamos de un colaborador y los expone al publico
     @Transactional(readOnly = true)

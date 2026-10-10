@@ -32,6 +32,7 @@ public class Prestamo {
     @Column(name = "fecha_pago", nullable = true)
     private LocalDate fechaPago;
 
+    @Enumerated(EnumType.STRING)
     private EstatusPrestamo estatus;
 
     @Column(nullable = true)
