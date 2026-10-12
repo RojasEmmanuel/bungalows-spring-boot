@@ -2,7 +2,7 @@ package com.emmadev.bungalows.service;
 
 import com.emmadev.bungalows.DTO.Ubicacion.UbicacionDetail;
 import com.emmadev.bungalows.DTO.Ubicacion.UbicacionRequest;
-import com.emmadev.bungalows.DTO.Ubicacion.UbicacionRequestPatch;
+import com.emmadev.bungalows.DTO.Ubicacion.UbicacionPatch;
 import com.emmadev.bungalows.DTO.Ubicacion.UbicacionResponse;
 import com.emmadev.bungalows.entity.Ubicacion;
 import com.emmadev.bungalows.repository.UbicacionRespository;
@@ -18,6 +18,7 @@ import java.util.List;
 public class UbicacionService {
     private UbicacionRespository respository;
     private LaboralQueryService laboralQuery;
+    private EmpresaQueryService empresaQuery;
 
     @Transactional(readOnly = true)
     public List<UbicacionResponse> getUbicaciones(){
@@ -28,7 +29,8 @@ public class UbicacionService {
                         ubicacion.getNombre(),
                         ubicacion.getSlug(),
                         ubicacion.getDireccion(),
-                        ubicacion.getImagenPath()
+                        ubicacion.getImagenPath(),
+                        ubicacion.getEmpresa().getId()
                 )
         ).toList();
     }
@@ -40,16 +42,29 @@ public class UbicacionService {
         ubicacion.setDireccion(ubicacionDTO.direccion());
         ubicacion.setImagenPath(ubicacionDTO.imagenPath());
 
+        ubicacion.setEmpresa(empresaQuery.getById(ubicacionDTO.empresaId()));
         return saveUpdate(ubicacion);
     }
 
-    public UbicacionResponse updateUbicacion(UbicacionRequestPatch dto){
-        Ubicacion ubicacion = respository.findById(dto.id()).orElseThrow(
-                ()->new IllegalArgumentException("")
-        );
-        ubicacion.setNombre(dto.nombre());
-        ubicacion.setDireccion(dto.direccion());
-        ubicacion.setImagenPath(dto.imagenPath());
+    @Transactional
+    public UbicacionResponse updateUbicacion(UbicacionPatch dto){
+        Ubicacion ubicacion = getUbicacionById(dto.id());
+
+        if(dto.empresaId() != null){
+            ubicacion.setEmpresa(empresaQuery.getById(dto.empresaId()));
+        }
+
+        if(dto.nombre() != null){
+            ubicacion.setNombre(dto.nombre());
+        }
+
+        if(dto.direccion() != null){
+            ubicacion.setDireccion(dto.direccion());
+        }
+
+        if(dto.imagenPath() != null){
+            ubicacion.setImagenPath(dto.imagenPath());
+        }
 
         return saveUpdate(ubicacion);
     }
@@ -77,7 +92,8 @@ public class UbicacionService {
         return new UbicacionResponse(
                 ubicacion.getId(),
                 ubicacion.getNombre(), ubicacion.getSlug(),
-                ubicacion.getDireccion(), ubicacion.getImagenPath()
+                ubicacion.getDireccion(), ubicacion.getImagenPath(),
+                ubicacion.getEmpresa().getId()
         );
     }
 
@@ -94,7 +110,8 @@ public class UbicacionService {
                 ubicacion.getNombre(),
                 ubicacion.getSlug(),
                 ubicacion.getDireccion(),
-                ubicacion.getImagenPath()
+                ubicacion.getImagenPath(),
+                ubicacion.getEmpresa().getId()
         );
     }
 

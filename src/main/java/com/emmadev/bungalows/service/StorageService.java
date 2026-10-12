@@ -23,6 +23,8 @@ public class StorageService {
     // TIPOS DE DIRECTORIOS
     private static final Set<String> TIPOS_VALIDOS = Set.of(
             "ubicaciones",
+            "empresas/logos",
+            "empresas/documentos",
             "colaboradores/fotos",
             "colaboradores/documentos",
             "documentos/nominas",

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.sql.results.graph.Fetch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,9 @@ public class Ubicacion {
     @OneToMany(mappedBy = "ubicacion")
     private List <Laboral> laborales = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "empresa_id", nullable = true)
+    private Empresa empresa;
 
     @PrePersist
     public void prepersis(){

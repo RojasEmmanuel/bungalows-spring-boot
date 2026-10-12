@@ -5,6 +5,7 @@ public record UbicacionResponse(
         String nombre,
         String slug,
         String direccion,
-        String imagenPath
+        String imagenPath,
+        Long empresaId
 ) {
 }

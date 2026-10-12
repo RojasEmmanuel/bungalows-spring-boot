@@ -2,7 +2,7 @@ package com.emmadev.bungalows.controller;
 
 import com.emmadev.bungalows.DTO.Ubicacion.UbicacionDetail;
 import com.emmadev.bungalows.DTO.Ubicacion.UbicacionRequest;
-import com.emmadev.bungalows.DTO.Ubicacion.UbicacionRequestPatch;
+import com.emmadev.bungalows.DTO.Ubicacion.UbicacionPatch;
 import com.emmadev.bungalows.DTO.Ubicacion.UbicacionResponse;
 import com.emmadev.bungalows.service.UbicacionService;
 import jakarta.validation.Valid;
@@ -39,7 +39,7 @@ public class UbicacionController { // CONTROLADOR PARA MANEJAR OPERACION CRUD DE
     }
 
     @PatchMapping
-    public UbicacionResponse patchUbicacion(@RequestBody @Valid UbicacionRequestPatch ubicacion){
+    public UbicacionResponse patchUbicacion(@RequestBody @Valid UbicacionPatch ubicacion){
         return service.updateUbicacion(ubicacion);
     }
 

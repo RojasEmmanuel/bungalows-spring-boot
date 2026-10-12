@@ -1,6 +1,7 @@
 package com.emmadev.bungalows.DTO.Ubicacion;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record UbicacionRequest(
@@ -15,6 +16,9 @@ public record UbicacionRequest(
         @NotBlank(message = "Debe ingresar una dirección")
         String direccion,
 
-        String imagenPath
+        String imagenPath,
+
+        @NotNull(message = "Se requiere la empresa")
+        Long empresaId
 ) {
 }
