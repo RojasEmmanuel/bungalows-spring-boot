@@ -41,6 +41,12 @@ public class ColaboradorController {
     }
 
 
+    // endpoint para select de colaboradores.
+    @GetMapping("/options")
+    public List<ColaboradorOptionResponse> getToSelect(){
+        return service.getColaboradorToSelect();
+    }
+
     /** Nuevo endpoint: crea N colaboradores de una sola vez */
     @PostMapping("/batch")
     public void postColaboradoresBatch(

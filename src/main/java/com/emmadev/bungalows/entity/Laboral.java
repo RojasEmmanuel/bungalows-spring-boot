@@ -61,6 +61,8 @@ public class Laboral {
     @OneToMany(mappedBy = "laboral", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Vacaciones> vacaciones = new ArrayList<>();
 
+    @OneToMany(mappedBy = "laboral", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Nomina> nominas = new ArrayList<>();
 }
 
 

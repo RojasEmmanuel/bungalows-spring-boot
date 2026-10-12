@@ -1,9 +1,6 @@
 package com.emmadev.bungalows.service;
 
 import com.emmadev.bungalows.DTO.Colaborador.*;
-import com.emmadev.bungalows.DTO.Confidencial.ConfidencialResponse;
-import com.emmadev.bungalows.DTO.Direccion.DireccionResponse;
-import com.emmadev.bungalows.DTO.Laboral.LaboralResponse;
 import com.emmadev.bungalows.entity.Colaborador;
 import com.emmadev.bungalows.repository.ColaboradorRepository;
 import com.emmadev.bungalows.utils.FechaUtils;
@@ -146,6 +143,16 @@ public class ColaboradorService {
         }
 
         repository.save(colaborador);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ColaboradorOptionResponse> getColaboradorToSelect(){
+        return repository.findAll().stream().map(
+                colaborador -> new ColaboradorOptionResponse(
+                        colaborador.getId(),
+                        colaborador.getNombreCompleto()
+                )
+        ).toList();
     }
 
 }

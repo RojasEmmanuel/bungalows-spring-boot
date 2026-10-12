@@ -1,10 +1,8 @@
 package com.emmadev.bungalows.service;
 
 import com.emmadev.bungalows.DTO.Colaborador.ColaboradorRequestComplete;
-import com.emmadev.bungalows.DTO.Laboral.Aniversarios;
-import com.emmadev.bungalows.DTO.Laboral.LaboralPatch;
-import com.emmadev.bungalows.DTO.Laboral.LaboralResponse;
-import com.emmadev.bungalows.DTO.Laboral.AntiguedadesProximas;
+import com.emmadev.bungalows.DTO.Laboral.*;
+import com.emmadev.bungalows.DTO.Nomina.LaboralNominaResponse;
 import com.emmadev.bungalows.entity.Colaborador;
 import com.emmadev.bungalows.entity.Laboral;
 import com.emmadev.bungalows.repository.LaboralRepository;
@@ -163,6 +161,28 @@ public class LaboralService {
                 laboral.getPuesto().getNombre(),
                 laboral.getUbicacion().getNombre()
         );
+    }
+
+
+    // para cargar los datos del colaborador
+    public LaboralNominaResponse getLaboralNominas(Long colaboradorId){
+
+
+         Colaborador colaborador = colaboradorQuery.getById(colaboradorId);
+         Laboral laboral = colaborador.getLaboral();
+
+         return new LaboralNominaResponse(
+                 laboral.getId(),
+                 colaborador.getNombreCompleto(),
+                 colaborador.getConfidencial().getRfc(),
+                 colaborador.getConfidencial().getCurp(),
+                 laboral.getFechaIngreso(),
+                 FechaUtils.formatoHorario(laboral.getEntrada(), laboral.getSalida()),
+                 laboral.getColaborador().getConfidencial().getNss(),
+                 laboral.getPuesto().getNombre(),
+                 laboral.getUbicacion().getNombre(),
+                 laboral.getSueldo()
+         );
     }
 
 }
