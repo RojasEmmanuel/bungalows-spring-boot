@@ -2,7 +2,7 @@ package com.emmadev.bungalows.service;
 
 import com.emmadev.bungalows.DTO.Colaborador.ColaboradorRequestComplete;
 import com.emmadev.bungalows.DTO.Laboral.*;
-import com.emmadev.bungalows.DTO.Nomina.LaboralNominaResponse;
+import com.emmadev.bungalows.DTO.Laboral.LaboralNominaResponse;
 import com.emmadev.bungalows.entity.Colaborador;
 import com.emmadev.bungalows.entity.Laboral;
 import com.emmadev.bungalows.repository.LaboralRepository;
@@ -163,10 +163,15 @@ public class LaboralService {
         );
     }
 
+    protected Laboral getById(Long id){
+        return repository.findById(id)
+                .orElseThrow(()->new IllegalArgumentException("NO existe un laboral con este id")
+        );
+    }
+
 
     // para cargar los datos del colaborador
     public LaboralNominaResponse getLaboralNominas(Long colaboradorId){
-
 
          Colaborador colaborador = colaboradorQuery.getById(colaboradorId);
          Laboral laboral = colaborador.getLaboral();

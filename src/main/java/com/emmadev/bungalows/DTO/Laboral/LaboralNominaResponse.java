@@ -1,4 +1,4 @@
-package com.emmadev.bungalows.DTO.Nomina;
+package com.emmadev.bungalows.DTO.Laboral;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

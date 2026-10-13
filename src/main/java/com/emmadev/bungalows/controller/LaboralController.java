@@ -1,9 +1,6 @@
 package com.emmadev.bungalows.controller;
 
-import com.emmadev.bungalows.DTO.Laboral.Aniversarios;
-import com.emmadev.bungalows.DTO.Laboral.LaboralPatch;
-import com.emmadev.bungalows.DTO.Laboral.AntiguedadesProximas;
-import com.emmadev.bungalows.DTO.Laboral.LaboralResponse;
+import com.emmadev.bungalows.DTO.Laboral.*;
 import com.emmadev.bungalows.service.LaboralService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -31,6 +28,11 @@ public class LaboralController {
     @GetMapping("/aniversarios")
     public List<Aniversarios> aniversarios(){
         return service.getAniversarios();
+    }
+
+    @GetMapping("/nomina/{colaboradorId}")
+    public LaboralNominaResponse nominaResponse(@PathVariable Long colaboradorId){
+        return service.getLaboralNominas(colaboradorId);
     }
 
     @PatchMapping

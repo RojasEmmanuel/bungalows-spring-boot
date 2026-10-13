@@ -14,7 +14,6 @@ import java.time.LocalTime;
 public record LaboralPatch(
         @NotNull (message = "Se requiere el id del colaborador")
         Long colaboradorId,
-
         @PastOrPresent(message = "La fecha no puede ser futura, es hoy o antes")
         LocalDate fechaIngreso,
         @Min(1000)

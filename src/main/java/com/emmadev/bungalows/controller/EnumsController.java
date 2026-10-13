@@ -81,6 +81,14 @@ public class EnumsController {
     }
 
 
+    @GetMapping("/tipos-deducciones")
+    public List<EnumOption> tiposDeducciones(){
+        return Arrays.stream(TipoDeduccion.values())
+                .map(e -> new EnumOption(e.name(), e.getNombre()))
+                .toList();
+    }
+
+
     /** Todos los enums del formulario de una sola llamada */
     @GetMapping("/colaborador-form")
     public Map<String, List<EnumOption>> colaboradorForm() {

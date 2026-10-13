@@ -52,4 +52,20 @@ public class Nomina {
 
     @OneToMany(mappedBy = "nomina", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Deduccion> deducciones = new ArrayList<>();
+
+    @PrePersist
+    public void prepersist(){
+        this.ejercicio = LocalDate.now().getYear();
+        this.fechaPago = LocalDate.now();
+    }
+
+    public void addPercepcion(Percepcion percepcion){
+        percepciones.add(percepcion);
+        percepcion.setNomina(this);
+    }
+
+    public void addDeduccion(Deduccion deduccion) {
+        deducciones.add(deduccion);
+        deduccion.setNomina(this);
+    }
 }
