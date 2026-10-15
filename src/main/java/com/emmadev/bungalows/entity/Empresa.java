@@ -24,7 +24,7 @@ public class Empresa {
 
     private String nombreLegal;
     private String responsable;//nombre completo
-    private String registroFiscal;
+    private String regimenFiscal;
     private String direccion;
     private String registroPatronal;
     private String logoPath;

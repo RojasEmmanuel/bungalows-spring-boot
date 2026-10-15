@@ -11,8 +11,8 @@ public record EmpresaRequest(
         @Length(min = 3, max = 200)
         String responsable,
 
-        @NotBlank(message = "Se requiere el registro fiscal")
-        String registroFiscal,
+        @NotBlank(message = "Se requiere el regimen fiscal")
+        String regimenFiscal,
 
         String direccion,
         String registroPatronal,

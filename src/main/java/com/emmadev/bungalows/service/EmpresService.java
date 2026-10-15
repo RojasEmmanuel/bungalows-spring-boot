@@ -23,7 +23,7 @@ public class EmpresService {
         Empresa empresa = new Empresa();
         empresa.setNombreLegal(request.nombreLegal());
         empresa.setResponsable(request.responsable());
-        empresa.setRegistroFiscal(request.registroFiscal());
+        empresa.setRegimenFiscal(request.regimenFiscal());
         empresa.setDireccion(request.direccion());
         empresa.setRegistroPatronal(request.registroPatronal());
         empresa.setLogoPath(request.logoPath());
@@ -67,7 +67,7 @@ public class EmpresService {
                 empresa.getId(),
                 empresa.getNombreLegal(),
                 empresa.getResponsable(),
-                empresa.getRegistroFiscal(),
+                empresa.getRegimenFiscal(),
                 empresa.getDireccion(),
                 empresa.getRegistroPatronal(),
                 empresa.getLogoPath()

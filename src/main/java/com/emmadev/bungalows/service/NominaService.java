@@ -1,18 +1,25 @@
 package com.emmadev.bungalows.service;
 
 import com.emmadev.bungalows.DTO.Nomina.DeduccionRequest;
+import com.emmadev.bungalows.DTO.Nomina.NominaPdfModel;
 import com.emmadev.bungalows.DTO.Nomina.NominaRequest;
 import com.emmadev.bungalows.DTO.Nomina.PercepcionRequest;
 import com.emmadev.bungalows.Enums.TipoDeduccion;
-import com.emmadev.bungalows.entity.Deduccion;
-import com.emmadev.bungalows.entity.Nomina;
-import com.emmadev.bungalows.entity.Percepcion;
+import com.emmadev.bungalows.Enums.TipoDocumento;
+import com.emmadev.bungalows.entity.*;
 import com.emmadev.bungalows.repository.NominaRepository;
+import com.emmadev.bungalows.service.Documento.DocumentoPdfService;
+import com.emmadev.bungalows.utils.DateFormatter;
+import com.emmadev.bungalows.utils.MoneyFormatter;
 import lombok.AllArgsConstructor;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -21,6 +28,7 @@ public class NominaService {
 
     private final NominaRepository repository;
     private final LaboralService laboralService;
+    private final DocumentoPdfService documentoPdfService;
 
     @Transactional
     public void crearNomina(NominaRequest request){
@@ -49,6 +57,7 @@ public class NominaService {
         Nomina nomina = new Nomina();
         nomina.setFechaInicio(request.fechaInicio());
         nomina.setFechaFin(request.fechaFin());
+        nomina.setDiasPago(request.diasPago());
         nomina.setTotal(total);
         nomina.setSubtotal(totalPercepciones);
         nomina.setDescuentos(descuentos);
@@ -82,6 +91,77 @@ public class NominaService {
             percepcion.setMonto(percepcionRequest.monto());
 
             nomina.addPercepcion(percepcion);
+        }
+    }
+
+
+    @Transactional(readOnly = true)
+    public byte[] generarPdfNomina(Long id) {
+        Nomina nomina = repository.findWithPercepcionesById(id)
+                .orElseThrow(() ->
+                        new IllegalArgumentException(
+                                "No existe la nómina con ID: " + id
+                        ));
+
+        repository.findWithDeduccionesById(id);
+
+        NominaPdfModel modelo = construirModelo(nomina);
+        return documentoPdfService.generarPdf(TipoDocumento.NOMINA, modelo);
+    }
+
+    private NominaPdfModel construirModelo(Nomina nomina) {
+        Laboral laboral = nomina.getLaboral();
+        Confidencial confidencial = laboral.getColaborador().getConfidencial();
+        Ubicacion ubicacion = laboral.getUbicacion();
+        Empresa empresa = ubicacion != null ? ubicacion.getEmpresa() : null;
+
+        List<NominaPdfModel.Item> percepciones = nomina.getPercepciones().stream()
+                .map(p -> new NominaPdfModel.Item(p.getConcepto(),
+                        MoneyFormatter.numero(p.getMonto().doubleValue())))
+                .toList();
+
+        List<NominaPdfModel.Item> deducciones = nomina.getDeducciones().stream()
+                .map(d -> new NominaPdfModel.Item(d.getTipo().name(),
+                        MoneyFormatter.numero(d.getMonto().doubleValue())))
+                .toList();
+
+        return new NominaPdfModel(
+                empresa != null ? empresa.getNombreLegal() : "",
+                empresa != null ? empresa.getRegimenFiscal() : "",
+                empresa != null ? empresa.getDireccion() : "",
+                empresa != null ? empresa.getRegistroPatronal() : "",
+                cargarLogoBase64(empresa),
+
+                laboral.getColaborador().getNombreCompleto(),
+                confidencial != null ? confidencial.getRfc() : "",
+                confidencial != null ? confidencial.getCurp() : "",
+                confidencial != null ? confidencial.getNss() : "",
+                DateFormatter.larga(laboral.getFechaIngreso()),
+                DateFormatter.horario(laboral.getEntrada(), laboral.getSalida()),
+                laboral.getPuesto() != null ? laboral.getPuesto().getNombre() : "",
+                ubicacion != null ? ubicacion.getNombre() : "",
+
+                String.valueOf(nomina.getEjercicio()),
+                DateFormatter.periodo(nomina.getFechaInicio(), nomina.getFechaFin()),
+                String.valueOf(nomina.getDiasPago()),
+                DateFormatter.simple(nomina.getFechaPago()),
+                MoneyFormatter.numero(nomina.getSubtotal().doubleValue()),
+                MoneyFormatter.numero(nomina.getDescuentos().doubleValue()),
+                MoneyFormatter.numero(nomina.getRetenciones().doubleValue()),
+                MoneyFormatter.numero(nomina.getTotal().doubleValue()),
+                MoneyFormatter.letra(nomina.getTotal().doubleValue()),
+                percepciones,
+                deducciones
+        );
+    }
+
+    private String cargarLogoBase64(Empresa empresa) {
+        if (empresa == null || empresa.getLogoPath() == null) return "";
+        try (InputStream is = new ClassPathResource(empresa.getLogoPath()).getInputStream()) {
+            byte[] bytes = is.readAllBytes();
+            return "data:image/png;base64," + Base64.getEncoder().encodeToString(bytes);
+        } catch (IOException e) {
+            return "";
         }
     }
 }

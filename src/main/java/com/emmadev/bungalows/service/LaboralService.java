@@ -6,6 +6,7 @@ import com.emmadev.bungalows.DTO.Laboral.LaboralNominaResponse;
 import com.emmadev.bungalows.entity.Colaborador;
 import com.emmadev.bungalows.entity.Laboral;
 import com.emmadev.bungalows.repository.LaboralRepository;
+import com.emmadev.bungalows.utils.DateFormatter;
 import com.emmadev.bungalows.utils.FechaUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -182,7 +183,7 @@ public class LaboralService {
                  colaborador.getConfidencial().getRfc(),
                  colaborador.getConfidencial().getCurp(),
                  laboral.getFechaIngreso(),
-                 FechaUtils.formatoHorario(laboral.getEntrada(), laboral.getSalida()),
+                 DateFormatter.horario(laboral.getEntrada(), laboral.getSalida()),
                  laboral.getColaborador().getConfidencial().getNss(),
                  laboral.getPuesto().getNombre(),
                  laboral.getUbicacion().getNombre(),

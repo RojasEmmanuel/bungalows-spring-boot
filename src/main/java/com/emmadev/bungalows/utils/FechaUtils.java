@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.MonthDay;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Locale;
 
 public class FechaUtils {
 
@@ -59,9 +61,5 @@ public class FechaUtils {
         }
 
         return ((int) ChronoUnit.DAYS.between(inicio, fin));
-    }
-
-    public static String formatoHorario(LocalTime entrada, LocalTime salida){
-        return entrada.toString()+ " - " + salida.toString();
     }
 }

@@ -4,7 +4,7 @@ public record EmpresaResponse(
         Long id,
         String nombreLegal,
         String responsable,
-        String registroFiscal,
+        String regimenFiscal,
         String direccion,
         String registroPatronal,
         String logoPath
