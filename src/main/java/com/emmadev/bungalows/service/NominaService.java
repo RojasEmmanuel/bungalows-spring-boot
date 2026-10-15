@@ -9,6 +9,7 @@ import com.emmadev.bungalows.Enums.TipoDocumento;
 import com.emmadev.bungalows.entity.*;
 import com.emmadev.bungalows.repository.NominaRepository;
 import com.emmadev.bungalows.service.Documento.DocumentoPdfService;
+import com.emmadev.bungalows.service.Logos.LogoService;
 import com.emmadev.bungalows.utils.DateFormatter;
 import com.emmadev.bungalows.utils.MoneyFormatter;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,7 @@ public class NominaService {
     private final NominaRepository repository;
     private final LaboralService laboralService;
     private final DocumentoPdfService documentoPdfService;
+    private final LogoService logoService;
 
     @Transactional
     public void crearNomina(NominaRequest request){
@@ -130,7 +132,7 @@ public class NominaService {
                 empresa != null ? empresa.getRegimenFiscal() : "",
                 empresa != null ? empresa.getDireccion() : "",
                 empresa != null ? empresa.getRegistroPatronal() : "",
-                cargarLogoBase64(empresa),
+                logoService.obtenerLogoBase64(empresa),
                 empresa != null ? empresa.getRfc():"",
 
                 laboral.getColaborador().getNombreCompleto().toUpperCase(),
@@ -156,13 +158,4 @@ public class NominaService {
         );
     }
 
-    private String cargarLogoBase64(Empresa empresa) {
-        if (empresa == null || empresa.getLogoPath() == null) return "";
-        try (InputStream is = new ClassPathResource(empresa.getLogoPath()).getInputStream()) {
-            byte[] bytes = is.readAllBytes();
-            return "data:image/png;base64," + Base64.getEncoder().encodeToString(bytes);
-        } catch (IOException e) {
-            return "";
-        }
-    }
 }

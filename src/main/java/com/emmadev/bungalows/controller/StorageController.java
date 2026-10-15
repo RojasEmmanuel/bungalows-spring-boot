@@ -31,7 +31,7 @@ public class StorageController {
 
     @PostMapping("/empresa/logo")
     public ResponseEntity<Map<String, String>>subirLogoEmpresa(@RequestParam("file") MultipartFile file){
-        String url = service.guardar(file, "empresas/logos", "foto");
+        String url = service.guardar(file, "empresas/logos", "logo");
         return ResponseEntity.ok(Map.of("path", url));
     }
 

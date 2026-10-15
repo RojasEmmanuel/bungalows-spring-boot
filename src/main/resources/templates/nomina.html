@@ -3,127 +3,188 @@
 <head>
     <meta charset="UTF-8"/>
     <style>
-        @page { size: A4; margin: 12mm; }
+        @page { size: A4; margin: 14mm 12mm; }
+
+        * { box-sizing: border-box; }
 
         body {
             font-family: 'NotoSans', sans-serif;
             font-size: 9pt;
             color: #222;
+            line-height: 1.35;
         }
 
+        /* ============ HEADER (sin líneas) ============ */
         .header {
             width: 100%;
-            border-bottom: 2px solid #b8b8d0;
-            margin-bottom: 6px;
+            margin-bottom: 18px;
         }
-        .header td { vertical-align: top; padding: 4px 6px; }
-        .empresa-nombre { font-weight: bold; font-size: 11pt; }
+        .header td { vertical-align: top; padding: 2px 6px; }
+        .empresa-nombre {
+            font-weight: bold;
+            font-size: 12pt;
+            margin-bottom: 4px;
+            letter-spacing: .3px;
+        }
+        .header .linea { margin: 2px 0; }
+        .header .label-min { color: #555; }
         .logo { text-align: right; }
-        .logo img { max-height: 60px; }
+        .logo img { max-height: 70px; margin-bottom: 6px; }
+        .logo .meta { text-align: right; font-size: 9pt; }
+        .logo .meta div { margin: 2px 0; }
 
-        .empleado { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
-        .empleado td { padding: 2px 4px; }
-        .label { font-weight: bold; color: #333; }
+        /* ============ DATOS DEL COLABORADOR (sin líneas) ============ */
+        .empleado {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .empleado td {
+            padding: 5px 10px;
+            vertical-align: top;
+        }
         .empleado .col-label { width: 14%; }
         .empleado .col-valor { width: 36%; }
+        .label { font-weight: bold; color: #333; }
+        .valor { color: #222; }
 
-        .tabla-nomina { width: 100%; border-collapse: collapse; }
+        /* ============ TABLA PERCEPCIONES / DEDUCCIONES (única con líneas) ============ */
+        .tabla-nomina {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 18px;
+        }
         .tabla-nomina th {
-            background: #d9d9e8;
+            background: #D6DCE4;
             text-align: center;
-            padding: 4px;
+            padding: 6px 8px;
             font-size: 9pt;
-            border: 1px solid #b8b8d0;
+            border: 1px solid #b8c2d0;
         }
         .tabla-nomina td {
-            padding: 3px 6px;
-            border-bottom: 1px solid #e0e0e0;
+            padding: 5px 8px;
             font-size: 9pt;
+            border: 1px solid #d6dce4;
         }
-        .total-row td {
-            font-weight: bold;
-            background: #f5f5fa;
-        }
-        .derecha { text-align: right; }
-        .centro { text-align: center; }
+        .tabla-nomina .derecha { text-align: right; }
+        .tabla-nomina .centro { text-align: center; }
 
-        .totales { width: 100%; margin-top: 8px; border-collapse: collapse; }
-        .totales td { padding: 3px 6px; }
-        .totales .label-tot { font-weight: bold; }
+        /* ============ TOTALES (sin líneas) ============ */
+        .totales {
+            width: 100%;
+            margin-top: 6px;
+            margin-bottom: 26px;
+            border-collapse: collapse;
+        }
+        .totales td {
+            padding: 5px 8px;
+            vertical-align: middle;
+        }
+        .totales .label-tot { font-weight: bold; color: #333; }
         .totales .valor { text-align: right; }
-        .totales .neto { font-weight: bold; background: #d9d9e8; }
-
-        .pie { margin-top: 10px; }
-        .pie .importe-letra {
-            background: #d9d9e8;
-            padding: 6px;
-            text-align: center;
+        .totales .neto {
             font-weight: bold;
-            margin-top: 4px;
+            background: #D6DCE4;
+        }
+
+        /* ============ IMPORTE EN LETRA ============ */
+        .letra {
+            background: #D6DCE4;
+            padding: 10px 12px;
+            margin: 6px 0 40px 0;
+            font-weight: bold;
+            font-size: 9.5pt;
+            page-break-inside: avoid;
+        }
+        .letra .intro { font-weight: normal; color: #333; }
+        .letra .monto { text-align: right; }
+
+        /* ============ FIRMA DEL COLABORADOR ============ */
+        .firma {
+            margin: 60px 0 0 auto;
+            width: 45%;
+            page-break-inside: avoid;
+        }
+        .firma .firma-linea {
+            border-top: 1px solid #555;
+            padding-top: 6px;
+            font-weight: bold;
+            font-size: 9.5pt;
+            color: #222;
+            text-align: center;
+        }
+        .firma .firma-label {
+            font-size: 8.5pt;
+            color: #555;
+            margin-top: 2px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
 
-<!-- ENCABEZADO -->
+<!-- ============ ENCABEZADO ============ -->
 <table class="header">
     <tr>
-        <td style="width: 55%;">
+        <td style="width: 58%;">
             <div class="empresa-nombre" th:text="${modelo.empresaNombreLegal}">EMPRESA</div>
-            <div>RFC: <span th:text="${modelo.empresaRfc}"></span></div>
-            <div>REG. FISCAL: <span th:text="${modelo.empresaRegimenFiscal}"></span></div>
-            <div>DIRECCION: <span th:text="${modelo.empresaDireccion}"></span></div>
+            <div class="linea"><span class="label-min">RFC:</span> <span th:text="${modelo.empresaRfc}"></span></div>
+            <div class="linea"><span class="label-min">REG. FISCAL:</span> <span th:text="${modelo.empresaRegimenFiscal}"></span></div>
+            <div class="linea"><span class="label-min">DIRECCIÓN:</span> <span th:text="${modelo.empresaDireccion}"></span></div>
         </td>
-        <td style="width: 45%;" class="logo">
-            <img th:if="${modelo.empresaLogoBase64 != ''}"
+        <td style="width: 42%;" class="logo">
+            <div class="meta">
+                <div><span class="label-min">FECHA:</span> <span th:text="${modelo.fechaPago}"></span></div>
+                <div><span class="label-min">REG. PATRONAL:</span> <span th:text="${modelo.empresaRegistroPatronal}"></span></div>
+            </div>
+            <img th:if="${!#strings.isEmpty(modelo.empresaLogoBase64)}"
                  th:src="${modelo.empresaLogoBase64}" alt="logo"/>
-            <div>FECHA: <span th:text="${modelo.fechaPago}"></span></div>
-            <div>REG. PATRONAL: <span th:text="${modelo.empresaRegistroPatronal}"></span></div>
+
         </td>
     </tr>
 </table>
 
-<!-- DATOS DEL COLABORADOR -->
+<!-- ============ DATOS DEL COLABORADOR ============ -->
 <table class="empleado">
     <tr>
         <td class="label col-label">COLABORADOR:</td>
-        <td class="col-valor" th:text="${modelo.empleadoNombre}"></td>
+        <td class="col-valor valor" th:text="${modelo.empleadoNombre}"></td>
         <td class="label col-label">EJERCICIO:</td>
-        <td class="col-valor" th:text="${modelo.ejercicio}"></td>
+        <td class="col-valor valor" th:text="${modelo.ejercicio}"></td>
     </tr>
     <tr>
         <td class="label">RFC:</td>
-        <td th:text="${modelo.empleadoRfc}"></td>
+        <td class="valor" th:text="${modelo.empleadoRfc}"></td>
         <td class="label">PERIODO:</td>
-        <td th:text="${modelo.periodo}"></td>
+        <td class="valor" th:text="${modelo.periodo}"></td>
     </tr>
     <tr>
         <td class="label">CURP:</td>
-        <td th:text="${modelo.empleadoCurp}"></td>
+        <td class="valor" th:text="${modelo.empleadoCurp}"></td>
         <td class="label">DÍAS DE PAGO:</td>
-        <td th:text="${modelo.diasPagados}"></td>
+        <td class="valor" th:text="${modelo.diasPagados}"></td>
     </tr>
     <tr>
         <td class="label">FECHA DE INICIO:</td>
-        <td th:text="${modelo.empleadoFechaIngreso}"></td>
+        <td class="valor" th:text="${modelo.empleadoFechaIngreso}"></td>
         <td class="label">FECHA DE PAGO:</td>
-        <td th:text="${modelo.fechaPago}"></td>
+        <td class="valor" th:text="${modelo.fechaPago}"></td>
     </tr>
     <tr>
         <td class="label">JORNADA:</td>
-        <td th:text="${modelo.empleadoJornada}"></td>
+        <td class="valor" th:text="${modelo.empleadoJornada}"></td>
         <td class="label">PUESTO:</td>
-        <td th:text="${modelo.empleadoPuesto}"></td>
+        <td class="valor" th:text="${modelo.empleadoPuesto}"></td>
     </tr>
     <tr>
         <td class="label">NSS:</td>
-        <td th:text="${modelo.empleadoNss}"></td>
+        <td class="valor" th:text="${modelo.empleadoNss}"></td>
         <td class="label">DEPTO:</td>
-        <td th:text="${modelo.empleadoDepartamento}"></td>
+        <td class="valor" th:text="${modelo.empleadoDepartamento}"></td>
     </tr>
 </table>
 
-<!-- TABLA PERCEPCIONES / DEDUCCIONES -->
+<!-- ============ PERCEPCIONES / DEDUCCIONES ============ -->
 <table class="tabla-nomina">
     <thead>
     <tr>
@@ -147,7 +208,7 @@
     </tbody>
 </table>
 
-<!-- TOTALES -->
+<!-- ============ TOTALES ============ -->
 <table class="totales">
     <tr>
         <td class="label-tot">TOTAL DE PERCEPCIONES MÁS OTROS PAGOS:</td>
@@ -181,17 +242,25 @@
     </tr>
 </table>
 
-<!-- PIE -->
-<div class="pie">
+<!-- ============ IMPORTE EN LETRA ============ -->
+<div class="letra">
     <table style="width: 100%;">
         <tr>
-            <td style="width: 50%;">
-                RECIBÍ DE LA EMPRESA <span th:text="${modelo.empresaNombreLegal}"></span>, LA CANTIDAD DE:
+            <td class="intro">
+                RECIBÍ DE LA EMPRESA
+                <span th:text="${modelo.empresaNombreLegal}"></span>,
+                LA CANTIDAD DE:
             </td>
-            <td style="width: 50%; text-align: right; font-weight: bold;" th:text="${modelo.totalLetra}"></td>
+            <td class="monto" th:text="${modelo.totalLetra}"></td>
         </tr>
     </table>
-
 </div>
+
+<!-- ============ FIRMA DEL COLABORADOR ============ -->
+<div class="firma">
+    <div class="firma-linea" th:text="${modelo.empleadoNombre}">NOMBRE COLABORADOR</div>
+    <div class="firma-label">Firma del Colaborador</div>
+</div>
+
 </body>
 </html>
