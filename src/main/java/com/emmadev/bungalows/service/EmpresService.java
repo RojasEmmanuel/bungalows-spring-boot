@@ -24,10 +24,11 @@ public class EmpresService {
         empresa.setNombreLegal(request.nombreLegal());
         empresa.setResponsable(request.responsable());
         empresa.setRegimenFiscal(request.regimenFiscal());
+
+        empresa.setRfc(request.rfc());
         empresa.setDireccion(request.direccion());
         empresa.setRegistroPatronal(request.registroPatronal());
         empresa.setLogoPath(request.logoPath());
-
         repository.save(empresa);
     }
 
@@ -46,6 +47,10 @@ public class EmpresService {
     public void actualizarEmpresa(EmpresaPatch patch){
 
         Empresa empresa = queryService.getById(patch.id());
+
+        if(patch.rfc() != null){
+            empresa.setRfc(patch.rfc());
+        }
 
         if(patch.registroPatronal() != null){
             empresa.setRegistroPatronal(patch.registroPatronal());
@@ -68,6 +73,7 @@ public class EmpresService {
                 empresa.getNombreLegal(),
                 empresa.getResponsable(),
                 empresa.getRegimenFiscal(),
+                empresa.getRfc(),
                 empresa.getDireccion(),
                 empresa.getRegistroPatronal(),
                 empresa.getLogoPath()

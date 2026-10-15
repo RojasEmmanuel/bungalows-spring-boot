@@ -116,40 +116,41 @@ public class NominaService {
         Empresa empresa = ubicacion != null ? ubicacion.getEmpresa() : null;
 
         List<NominaPdfModel.Item> percepciones = nomina.getPercepciones().stream()
-                .map(p -> new NominaPdfModel.Item(p.getConcepto(),
+                .map(p -> new NominaPdfModel.Item(p.getConcepto().toUpperCase(),
                         MoneyFormatter.numero(p.getMonto().doubleValue())))
                 .toList();
 
         List<NominaPdfModel.Item> deducciones = nomina.getDeducciones().stream()
-                .map(d -> new NominaPdfModel.Item(d.getTipo().name(),
+                .map(d -> new NominaPdfModel.Item(d.getTipo().getNombre().toUpperCase(),
                         MoneyFormatter.numero(d.getMonto().doubleValue())))
                 .toList();
 
         return new NominaPdfModel(
-                empresa != null ? empresa.getNombreLegal() : "",
+                empresa != null ? empresa.getNombreLegal().toUpperCase() : "",
                 empresa != null ? empresa.getRegimenFiscal() : "",
                 empresa != null ? empresa.getDireccion() : "",
                 empresa != null ? empresa.getRegistroPatronal() : "",
                 cargarLogoBase64(empresa),
+                empresa != null ? empresa.getRfc():"",
 
-                laboral.getColaborador().getNombreCompleto(),
+                laboral.getColaborador().getNombreCompleto().toUpperCase(),
                 confidencial != null ? confidencial.getRfc() : "",
                 confidencial != null ? confidencial.getCurp() : "",
                 confidencial != null ? confidencial.getNss() : "",
-                DateFormatter.larga(laboral.getFechaIngreso()),
-                DateFormatter.horario(laboral.getEntrada(), laboral.getSalida()),
-                laboral.getPuesto() != null ? laboral.getPuesto().getNombre() : "",
-                ubicacion != null ? ubicacion.getNombre() : "",
+                DateFormatter.larga(laboral.getFechaIngreso()).toUpperCase(),
+                DateFormatter.horario(laboral.getEntrada(), laboral.getSalida()).toUpperCase(),
+                laboral.getPuesto() != null ? laboral.getPuesto().getNombre().toUpperCase() : "",
+                ubicacion != null ? ubicacion.getNombre().toUpperCase() : "",
 
                 String.valueOf(nomina.getEjercicio()),
-                DateFormatter.periodo(nomina.getFechaInicio(), nomina.getFechaFin()),
+                DateFormatter.periodo(nomina.getFechaInicio(), nomina.getFechaFin()).toUpperCase(),
                 String.valueOf(nomina.getDiasPago()),
                 DateFormatter.simple(nomina.getFechaPago()),
                 MoneyFormatter.numero(nomina.getSubtotal().doubleValue()),
                 MoneyFormatter.numero(nomina.getDescuentos().doubleValue()),
                 MoneyFormatter.numero(nomina.getRetenciones().doubleValue()),
                 MoneyFormatter.numero(nomina.getTotal().doubleValue()),
-                MoneyFormatter.letra(nomina.getTotal().doubleValue()),
+                MoneyFormatter.letra(nomina.getTotal().doubleValue()).toUpperCase(),
                 percepciones,
                 deducciones
         );

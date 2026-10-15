@@ -23,6 +23,7 @@ public class Empresa {
     private long id;
 
     private String nombreLegal;
+    private String rfc;
     private String responsable;//nombre completo
     private String regimenFiscal;
     private String direccion;

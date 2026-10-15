@@ -9,6 +9,7 @@ public record NominaPdfModel(
         String empresaDireccion,
         String empresaRegistroPatronal,
         String empresaLogoBase64,   // data:image/png;base64,...
+        String empresaRfc,
 
         // Empleado
         String empleadoNombre,

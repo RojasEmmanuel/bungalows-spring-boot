@@ -14,6 +14,7 @@ public record EmpresaRequest(
         @NotBlank(message = "Se requiere el regimen fiscal")
         String regimenFiscal,
 
+        String rfc,
         String direccion,
         String registroPatronal,
         String logoPath
