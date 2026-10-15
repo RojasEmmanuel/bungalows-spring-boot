@@ -41,8 +41,6 @@ public class Nomina {
     private BigDecimal retenciones;
     private BigDecimal total;
 
-    private String documentoPath;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "laboral_id")
     private Laboral laboral;

@@ -19,8 +19,8 @@ public class NominaController {
     private final NominaService service;
 
     @PostMapping
-    public void crearNomina(@RequestBody @Valid NominaRequest request){
-        service.crearNomina(request);
+    public Long crearNomina(@RequestBody @Valid NominaRequest request){
+        return service.crearNomina(request);
     }
 
 

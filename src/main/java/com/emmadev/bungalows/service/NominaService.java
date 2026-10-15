@@ -33,7 +33,7 @@ public class NominaService {
     private final LogoService logoService;
 
     @Transactional
-    public void crearNomina(NominaRequest request){
+    public Long crearNomina(NominaRequest request){
 
         if(request.diasPago()==0){
             throw new IllegalArgumentException("El periodo de nomina debe tener al menos un día");
@@ -70,6 +70,7 @@ public class NominaService {
         setPercepcionesToNomina(nomina, request.percepciones());
 
         repository.save(nomina);
+        return nomina.getId();
     }
 
     private void setDeduccionesToNomina(Nomina nomina, List<DeduccionRequest> deducciones){

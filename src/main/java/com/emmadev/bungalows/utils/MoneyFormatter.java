@@ -74,7 +74,7 @@ public class MoneyFormatter {
                 "veinticinco", "veintiséis", "veintisiete", "veintiocho", "veintinueve"
         };
         String[] decenas = {
-                "", "", "treinta", "cuarenta", "cincuenta",
+                "", "", "", "treinta", "cuarenta", "cincuenta",
                 "sesenta", "setenta", "ochenta", "noventa"
         };
         String[] centenas = {
