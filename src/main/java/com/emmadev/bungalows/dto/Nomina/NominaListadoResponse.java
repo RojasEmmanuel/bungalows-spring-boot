@@ -6,6 +6,7 @@ import java.time.LocalDate;
 public record NominaListadoResponse(
         Long id,
         String nombreColaborador,
+        String fotografia,
         Integer ejercicio,
         LocalDate fechaInicio,
         LocalDate fechaFin,

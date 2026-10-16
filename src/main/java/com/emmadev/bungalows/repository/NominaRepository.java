@@ -47,7 +47,7 @@ public interface NominaRepository extends JpaRepository<Nomina, Long> {
 
 
     @Query("""
-        SELECT new com.emmadev.bungalows.dto.NominaResumenResponse(
+        SELECT new com.emmadev.bungalows.dto.Nomina.NominaResumenResponse(
             COUNT(n.id),
             COALESCE(SUM(n.subtotal), 0),
             COALESCE(SUM(n.descuentos), 0),
@@ -66,16 +66,25 @@ public interface NominaRepository extends JpaRepository<Nomina, Long> {
             @Param("fechaFin") LocalDate fechaFin
     );
 
+    @Query(
+            value = """
+                SELECT DISTINCT n.ejercicio 
+                FROM Nomina n 
+                where n.ejercicio IS NOT NULL ORDER BY n.ejercicio DESC
+            """
+    )
+    List<Integer> buscarEjerciciosDisponibles();
 
     @Query(
             value = """
-        SELECT new com.emmadev.bungalows.dto.NominaListadoResponse(
+        SELECT new com.emmadev.bungalows.dto.Nomina.NominaListadoResponse(
             n.id,
             TRIM(CONCAT(
                 c.nombre, ' ',
                 COALESCE(c.ap, ''), ' ',
                 COALESCE(c.am, '')
             )),
+            c.fotografia,
             n.ejercicio,
             n.fechaInicio,
             n.fechaFin,
@@ -128,6 +137,45 @@ public interface NominaRepository extends JpaRepository<Nomina, Long> {
             @Param("fechaInicio") LocalDate fechaInicio,
             @Param("fechaFin") LocalDate fechaFin,
             @Param("colaborador") String colaborador,
+            Pageable pageable
+    );
+
+    @Query(
+            value = """
+        SELECT new com.emmadev.bungalows.dto.Nomina.NominaListadoResponse(
+            n.id,
+            TRIM(CONCAT(
+                c.nombre, ' ',
+                COALESCE(c.ap, ''), ' ',
+                COALESCE(c.am, '')
+            )),
+            c.fotografia,
+            n.ejercicio,
+            n.fechaInicio,
+            n.fechaFin,
+            n.fechaPago,
+            n.diasPago,
+            n.subtotal,
+            n.descuentos,
+            n.retenciones,
+            n.total
+        )
+        FROM Nomina n
+        JOIN n.laboral l
+        JOIN l.colaborador c
+        WHERE c.id = :colaboradorId
+        ORDER BY n.fechaPago DESC, n.id DESC
+        """,
+            countQuery = """
+        SELECT COUNT(n.id)
+        FROM Nomina n
+        JOIN n.laboral l
+        JOIN l.colaborador c
+        WHERE c.id = :colaboradorId
+        """
+    )
+    Page<NominaListadoResponse> buscarPorColaborador(
+            @Param("colaboradorId") Long colaboradorId,
             Pageable pageable
     );
 }

@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-
 @Service
 @AllArgsConstructor
 public class NominaService {
@@ -160,6 +159,63 @@ public class NominaService {
     }
 
 
+    // consulta los detalles de una nomina
+    @Transactional(readOnly = true)
+    public NominaDetalleResponse getDetalleNomina(Long id){
+
+        return construirDetalleNomina(getById(id));
+    }
+
+    private NominaDetalleResponse construirDetalleNomina(Nomina n){
+
+        var colaborador = n.getLaboral().getColaborador();
+
+        return new NominaDetalleResponse(
+                n.getId(),
+                colaborador.getNombreCompleto(),
+                n.getEjercicio(),
+                DateFormatter.periodo(n.getFechaInicio(), n.getFechaFin()),
+                n.getDiasPago(),
+                n.getSubtotal(),
+                n.getDescuentos(),
+                n.getRetenciones(),
+                n.getTotal(),
+
+                n.getPercepciones().stream()
+                        .map(
+                        percepcion -> new PercepcionResponse(
+                                percepcion.getConcepto(),
+                                percepcion.getMonto()
+                        )).toList(),
+
+                n.getDeducciones().stream()
+                        .map(
+                            deduccion -> new DeduccionResponse(
+                                    deduccion.getTipo().getNombre(),
+                                    deduccion.getMonto()
+                            )).toList()
+
+        );
+    }
+
+
+    // consulta los ejercicios disponibles
+    public List<Integer> obtenerEjercicios(){
+        return repository.buscarEjerciciosDisponibles();
+    }
+
+
+    //consulta las nominas por colaborador
+    @Transactional(readOnly = true)
+    public Page<NominaListadoResponse> obtenerPorColaborador(Long colaboradorId, Pageable pageable){
+
+        if(colaboradorId == null || colaboradorId < 0){
+            throw  new IllegalArgumentException("El id del colaborador es inválido");
+        }
+
+        return repository.buscarPorColaborador(colaboradorId, pageable);
+    }
+
 
     // GENERA EL PDF DE UNA NOMINA
     @Transactional(readOnly = true)
@@ -224,5 +280,4 @@ public class NominaService {
                 deducciones
         );
     }
-
 }

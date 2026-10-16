@@ -1,5 +1,6 @@
 package com.emmadev.bungalows.controller;
 
+import com.emmadev.bungalows.dto.Nomina.NominaDetalleResponse;
 import com.emmadev.bungalows.dto.Nomina.NominaListadoResponse;
 import com.emmadev.bungalows.dto.Nomina.NominaRequest;
 import com.emmadev.bungalows.dto.Nomina.NominaResumenResponse;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/nominas")
@@ -30,6 +32,10 @@ public class NominaController {
         return service.crearNomina(request);
     }
 
+    @GetMapping("/{id}")
+    public NominaDetalleResponse detallesNomina(@PathVariable Long id){
+        return service.getDetalleNomina(id);
+    }
 
     @GetMapping("/{id}/pdf")
     public ResponseEntity<byte[]> pdf(@PathVariable Long id) {
@@ -58,7 +64,7 @@ public class NominaController {
     }
 
 
-    @GetMapping
+    @GetMapping("/lista")
     public ResponseEntity<Page<NominaListadoResponse>> getNominas(
             @RequestParam(required = false) Integer ejercicio,
             @RequestParam(required = false)
@@ -79,5 +85,21 @@ public class NominaController {
                         ejercicio, fechaInicio, fechaFin, colaborador, pageable
                 )
         );
+    }
+
+    // consulta las nominas por id del colaborador.
+    @GetMapping("/colaborador/{colaboradorId}")
+    public ResponseEntity<Page<NominaListadoResponse>> obtenerPorColaborador( @PathVariable Long colaboradorId,
+            @PageableDefault(size = 24) Pageable pageable
+    ) {
+        return ResponseEntity.ok(
+                service.obtenerPorColaborador(colaboradorId, pageable)
+        );
+    }
+
+
+    @GetMapping("/ejercicios")
+    public List<Integer> ejerciciosDisponibles(){
+       return service.obtenerEjercicios();
     }
 }

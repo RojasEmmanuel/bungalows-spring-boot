@@ -1,16 +1,13 @@
 package com.emmadev.bungalows.dto.Nomina;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 
 public record NominaDetalleResponse(
         Long id,
         String nombreColaborador,
         Integer ejercicio,
-        LocalDate fechaInicio,
-        LocalDate fechaFin,
-        LocalDate fechaPago,
+        String periodo,
         Integer diasPago,
         BigDecimal subtotal,
         BigDecimal descuentos,
