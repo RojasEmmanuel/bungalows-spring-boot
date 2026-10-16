@@ -1,6 +1,6 @@
 package com.emmadev.bungalows.controller;
 
-import com.emmadev.bungalows.DTO.Vacacional.VacacionalResponse;
+import com.emmadev.bungalows.dto.Vacacional.VacacionalResponse;
 import com.emmadev.bungalows.service.VacacionalService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

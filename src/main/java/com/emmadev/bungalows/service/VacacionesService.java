@@ -1,9 +1,9 @@
 package com.emmadev.bungalows.service;
 
-import com.emmadev.bungalows.DTO.Vacaciones.VacacionesPatch;
-import com.emmadev.bungalows.DTO.Vacaciones.VacacionesRequest;
-import com.emmadev.bungalows.DTO.Vacaciones.VacacionesResponse;
-import com.emmadev.bungalows.DTO.Vacaciones.VacacionesSImpleResponse;
+import com.emmadev.bungalows.dto.Vacaciones.VacacionesPatch;
+import com.emmadev.bungalows.dto.Vacaciones.VacacionesRequest;
+import com.emmadev.bungalows.dto.Vacaciones.VacacionesResponse;
+import com.emmadev.bungalows.dto.Vacaciones.VacacionesSImpleResponse;
 import com.emmadev.bungalows.entity.Colaborador;
 import com.emmadev.bungalows.entity.Vacacional;
 import com.emmadev.bungalows.entity.Vacaciones;
@@ -13,7 +13,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service

@@ -1,7 +1,7 @@
 package com.emmadev.bungalows.controller;
 
-import com.emmadev.bungalows.DTO.Direccion.DireccionPatch;
-import com.emmadev.bungalows.DTO.Direccion.DireccionResponse;
+import com.emmadev.bungalows.dto.Direccion.DireccionPatch;
+import com.emmadev.bungalows.dto.Direccion.DireccionResponse;
 import com.emmadev.bungalows.service.DireccionService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

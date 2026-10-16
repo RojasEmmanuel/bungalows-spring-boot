@@ -1,8 +1,8 @@
 package com.emmadev.bungalows.service;
 
-import com.emmadev.bungalows.DTO.Colaborador.ColaboradorRequestComplete;
-import com.emmadev.bungalows.DTO.Laboral.*;
-import com.emmadev.bungalows.DTO.Laboral.LaboralNominaResponse;
+import com.emmadev.bungalows.dto.Colaborador.ColaboradorRequestComplete;
+import com.emmadev.bungalows.dto.Laboral.*;
+import com.emmadev.bungalows.dto.Laboral.LaboralNominaResponse;
 import com.emmadev.bungalows.entity.Colaborador;
 import com.emmadev.bungalows.entity.Laboral;
 import com.emmadev.bungalows.repository.LaboralRepository;

@@ -1,6 +1,6 @@
 package com.emmadev.bungalows.scheduler;
 
-import com.emmadev.bungalows.DTO.Laboral.Aniversarios;
+import com.emmadev.bungalows.dto.Laboral.Aniversarios;
 import com.emmadev.bungalows.entity.Laboral;
 import com.emmadev.bungalows.repository.LaboralRepository;
 import com.emmadev.bungalows.repository.VacacionalRepository;

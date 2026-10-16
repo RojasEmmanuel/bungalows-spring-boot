@@ -1,11 +1,10 @@
 package com.emmadev.bungalows.service;
 
-import com.emmadev.bungalows.DTO.Responsable.ResponsablePatch;
-import com.emmadev.bungalows.DTO.Responsable.ResponsableRequest;
-import com.emmadev.bungalows.DTO.Responsable.ResponsableResponse;
+import com.emmadev.bungalows.dto.Responsable.ResponsablePatch;
+import com.emmadev.bungalows.dto.Responsable.ResponsableRequest;
+import com.emmadev.bungalows.dto.Responsable.ResponsableResponse;
 import com.emmadev.bungalows.entity.Responsable;
 import com.emmadev.bungalows.repository.ResponsableRepository;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,8 +1,8 @@
 package com.emmadev.bungalows.controller;
 
-import com.emmadev.bungalows.DTO.Responsable.ResponsablePatch;
-import com.emmadev.bungalows.DTO.Responsable.ResponsableRequest;
-import com.emmadev.bungalows.DTO.Responsable.ResponsableResponse;
+import com.emmadev.bungalows.dto.Responsable.ResponsablePatch;
+import com.emmadev.bungalows.dto.Responsable.ResponsableRequest;
+import com.emmadev.bungalows.dto.Responsable.ResponsableResponse;
 import com.emmadev.bungalows.service.ResponsableService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

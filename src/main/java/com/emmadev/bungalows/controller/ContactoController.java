@@ -1,8 +1,8 @@
 package com.emmadev.bungalows.controller;
 
-import com.emmadev.bungalows.DTO.Contacto.ContactoPatch;
-import com.emmadev.bungalows.DTO.Contacto.ContactoRequest;
-import com.emmadev.bungalows.DTO.Contacto.ContactoResponse;
+import com.emmadev.bungalows.dto.Contacto.ContactoPatch;
+import com.emmadev.bungalows.dto.Contacto.ContactoRequest;
+import com.emmadev.bungalows.dto.Contacto.ContactoResponse;
 import com.emmadev.bungalows.service.ContactoService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

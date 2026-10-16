@@ -1,8 +1,8 @@
 package com.emmadev.bungalows.controller;
 
-import com.emmadev.bungalows.DTO.Empresa.EmpresaPatch;
-import com.emmadev.bungalows.DTO.Empresa.EmpresaRequest;
-import com.emmadev.bungalows.DTO.Empresa.EmpresaResponse;
+import com.emmadev.bungalows.dto.Empresa.EmpresaPatch;
+import com.emmadev.bungalows.dto.Empresa.EmpresaRequest;
+import com.emmadev.bungalows.dto.Empresa.EmpresaResponse;
 import com.emmadev.bungalows.service.EmpresService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
 package com.emmadev.bungalows.controller;
 
-import com.emmadev.bungalows.DTO.Laboral.*;
+import com.emmadev.bungalows.dto.Laboral.*;
 import com.emmadev.bungalows.service.LaboralService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

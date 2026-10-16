@@ -1,8 +1,8 @@
 package com.emmadev.bungalows.service;
 
-import com.emmadev.bungalows.DTO.Colaborador.ColaboradorRequestComplete;
-import com.emmadev.bungalows.DTO.Direccion.DireccionPatch;
-import com.emmadev.bungalows.DTO.Direccion.DireccionResponse;
+import com.emmadev.bungalows.dto.Colaborador.ColaboradorRequestComplete;
+import com.emmadev.bungalows.dto.Direccion.DireccionPatch;
+import com.emmadev.bungalows.dto.Direccion.DireccionResponse;
 import com.emmadev.bungalows.entity.Colaborador;
 import com.emmadev.bungalows.entity.Direccion;
 import com.emmadev.bungalows.repository.DireccionRepository;

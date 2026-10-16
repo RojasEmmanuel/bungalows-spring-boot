@@ -1,8 +1,8 @@
 package com.emmadev.bungalows.service;
 
-import com.emmadev.bungalows.DTO.Colaborador.ColaboradorRequestComplete;
-import com.emmadev.bungalows.DTO.Confidencial.ConfidencialPatch;
-import com.emmadev.bungalows.DTO.Confidencial.ConfidencialResponse;
+import com.emmadev.bungalows.dto.Colaborador.ColaboradorRequestComplete;
+import com.emmadev.bungalows.dto.Confidencial.ConfidencialPatch;
+import com.emmadev.bungalows.dto.Confidencial.ConfidencialResponse;
 import com.emmadev.bungalows.entity.Colaborador;
 import com.emmadev.bungalows.entity.Confidencial;
 import com.emmadev.bungalows.repository.ConfidencialRepository;

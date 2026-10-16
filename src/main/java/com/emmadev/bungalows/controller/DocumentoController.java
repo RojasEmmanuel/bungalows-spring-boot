@@ -1,7 +1,7 @@
 package com.emmadev.bungalows.controller;
 
-import com.emmadev.bungalows.DTO.Documento.DocumentoRequest;
-import com.emmadev.bungalows.DTO.Documento.DocumentoResponse;
+import com.emmadev.bungalows.dto.Documento.DocumentoRequest;
+import com.emmadev.bungalows.dto.Documento.DocumentoResponse;
 import com.emmadev.bungalows.service.DocumentoService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

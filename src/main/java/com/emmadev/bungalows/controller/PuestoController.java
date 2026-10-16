@@ -1,8 +1,7 @@
 package com.emmadev.bungalows.controller;
 
-import com.emmadev.bungalows.DTO.Puesto.PuestoRequest;
-import com.emmadev.bungalows.DTO.Puesto.PuestoResponse;
-import com.emmadev.bungalows.entity.Puesto;
+import com.emmadev.bungalows.dto.Puesto.PuestoRequest;
+import com.emmadev.bungalows.dto.Puesto.PuestoResponse;
 import com.emmadev.bungalows.service.PuestoService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

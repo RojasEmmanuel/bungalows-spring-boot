@@ -1,7 +1,7 @@
 package com.emmadev.bungalows.controller;
 
-import com.emmadev.bungalows.DTO.auth.LoginRequest;
-import com.emmadev.bungalows.DTO.auth.UsuarioResponse;
+import com.emmadev.bungalows.dto.auth.LoginRequest;
+import com.emmadev.bungalows.dto.auth.UsuarioResponse;
 import com.emmadev.bungalows.security.UsuarioPrincipal;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

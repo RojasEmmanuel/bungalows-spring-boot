@@ -1,7 +1,7 @@
 package com.emmadev.bungalows.service;
 
-import com.emmadev.bungalows.DTO.Puesto.PuestoRequest;
-import com.emmadev.bungalows.DTO.Puesto.PuestoResponse;
+import com.emmadev.bungalows.dto.Puesto.PuestoRequest;
+import com.emmadev.bungalows.dto.Puesto.PuestoResponse;
 import com.emmadev.bungalows.entity.Puesto;
 import com.emmadev.bungalows.repository.PuestoRepository;
 import lombok.AllArgsConstructor;

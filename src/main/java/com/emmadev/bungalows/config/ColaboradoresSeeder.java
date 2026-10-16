@@ -1,6 +1,6 @@
 package com.emmadev.bungalows.config;
 
-import com.emmadev.bungalows.DTO.Colaborador.ColaboradorRequestComplete;
+import com.emmadev.bungalows.dto.Colaborador.ColaboradorRequestComplete;
 import com.emmadev.bungalows.Enums.*;
 import com.emmadev.bungalows.entity.Puesto;
 import com.emmadev.bungalows.entity.Ubicacion;

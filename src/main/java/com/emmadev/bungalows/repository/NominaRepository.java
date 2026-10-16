@@ -1,13 +1,18 @@
 package com.emmadev.bungalows.repository;
 
+import com.emmadev.bungalows.dto.Nomina.NominaListadoResponse;
+import com.emmadev.bungalows.dto.Nomina.NominaResumenResponse;
 import com.emmadev.bungalows.entity.Laboral;
 import com.emmadev.bungalows.entity.Nomina;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,4 +44,90 @@ public interface NominaRepository extends JpaRepository<Nomina, Long> {
     })
     @Query("SELECT n FROM Nomina n WHERE n.id = :id")
     Optional<Nomina> findWithDeduccionesById(@Param("id") Long id);
+
+
+    @Query("""
+        SELECT new com.emmadev.bungalows.dto.NominaResumenResponse(
+            COUNT(n.id),
+            COALESCE(SUM(n.subtotal), 0),
+            COALESCE(SUM(n.descuentos), 0),
+            COALESCE(SUM(n.retenciones), 0),
+            COALESCE(SUM(n.total), 0)
+        )
+        FROM Nomina n
+        WHERE
+            (:ejercicio IS NULL OR n.ejercicio = :ejercicio)
+            AND (:fechaInicio IS NULL OR n.fechaInicio >= :fechaInicio)
+            AND (:fechaFin IS NULL OR n.fechaFin <= :fechaFin)
+        """)
+    NominaResumenResponse obtenerResumen(
+            @Param("ejercicio") Integer ejercicio,
+            @Param("fechaInicio") LocalDate fechaInicio,
+            @Param("fechaFin") LocalDate fechaFin
+    );
+
+
+    @Query(
+            value = """
+        SELECT new com.emmadev.bungalows.dto.NominaListadoResponse(
+            n.id,
+            TRIM(CONCAT(
+                c.nombre, ' ',
+                COALESCE(c.ap, ''), ' ',
+                COALESCE(c.am, '')
+            )),
+            n.ejercicio,
+            n.fechaInicio,
+            n.fechaFin,
+            n.fechaPago,
+            n.diasPago,
+            n.subtotal,
+            n.descuentos,
+            n.retenciones,
+            n.total
+        )
+        FROM Nomina n
+        JOIN n.laboral l
+        JOIN l.colaborador c
+        WHERE (:ejercicio IS NULL OR n.ejercicio = :ejercicio)
+          AND (:fechaInicio IS NULL OR n.fechaInicio >= :fechaInicio)
+          AND (:fechaFin IS NULL OR n.fechaFin <= :fechaFin)
+          AND (
+              :colaborador IS NULL
+              OR LOWER(
+                  CONCAT(
+                      c.nombre, ' ',
+                      COALESCE(c.ap, ''), ' ',
+                      COALESCE(c.am, '')
+                  )
+              ) LIKE LOWER(CONCAT('%', :colaborador, '%'))
+          )
+        """,
+            countQuery = """
+        SELECT COUNT(n.id)
+        FROM Nomina n
+        JOIN n.laboral l
+        JOIN l.colaborador c
+        WHERE (:ejercicio IS NULL OR n.ejercicio = :ejercicio)
+          AND (:fechaInicio IS NULL OR n.fechaInicio >= :fechaInicio)
+          AND (:fechaFin IS NULL OR n.fechaFin <= :fechaFin)
+          AND (
+              :colaborador IS NULL
+              OR LOWER(
+                  CONCAT(
+                      c.nombre, ' ',
+                      COALESCE(c.ap, ''), ' ',
+                      COALESCE(c.am, '')
+                  )
+              ) LIKE LOWER(CONCAT('%', :colaborador, '%'))
+          )
+        """
+    )
+    Page<NominaListadoResponse> buscarNominas(
+            @Param("ejercicio") Integer ejercicio,
+            @Param("fechaInicio") LocalDate fechaInicio,
+            @Param("fechaFin") LocalDate fechaFin,
+            @Param("colaborador") String colaborador,
+            Pageable pageable
+    );
 }

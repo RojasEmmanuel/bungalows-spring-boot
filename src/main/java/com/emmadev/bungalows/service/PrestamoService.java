@@ -1,6 +1,6 @@
 package com.emmadev.bungalows.service;
 
-import com.emmadev.bungalows.DTO.Prestamo.*;
+import com.emmadev.bungalows.dto.Prestamo.*;
 import com.emmadev.bungalows.Enums.EstatusPrestamo;
 import com.emmadev.bungalows.entity.Colaborador;
 import com.emmadev.bungalows.entity.Prestamo;
@@ -16,10 +16,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service

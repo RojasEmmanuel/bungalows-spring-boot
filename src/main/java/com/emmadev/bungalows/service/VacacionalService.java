@@ -1,6 +1,6 @@
 package com.emmadev.bungalows.service;
 
-import com.emmadev.bungalows.DTO.Vacacional.VacacionalResponse;
+import com.emmadev.bungalows.dto.Vacacional.VacacionalResponse;
 import com.emmadev.bungalows.Enums.VacacionalEstatus;
 import com.emmadev.bungalows.entity.Colaborador;
 import com.emmadev.bungalows.entity.Laboral;

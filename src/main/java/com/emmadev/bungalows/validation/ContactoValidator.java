@@ -1,6 +1,6 @@
 package com.emmadev.bungalows.validation;
 
-import com.emmadev.bungalows.DTO.Contacto.ContactoRequest;
+import com.emmadev.bungalows.dto.Contacto.ContactoRequest;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

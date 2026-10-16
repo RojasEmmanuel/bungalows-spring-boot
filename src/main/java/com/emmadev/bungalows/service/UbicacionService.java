@@ -1,9 +1,9 @@
 package com.emmadev.bungalows.service;
 
-import com.emmadev.bungalows.DTO.Ubicacion.UbicacionDetail;
-import com.emmadev.bungalows.DTO.Ubicacion.UbicacionRequest;
-import com.emmadev.bungalows.DTO.Ubicacion.UbicacionPatch;
-import com.emmadev.bungalows.DTO.Ubicacion.UbicacionResponse;
+import com.emmadev.bungalows.dto.Ubicacion.UbicacionDetail;
+import com.emmadev.bungalows.dto.Ubicacion.UbicacionRequest;
+import com.emmadev.bungalows.dto.Ubicacion.UbicacionPatch;
+import com.emmadev.bungalows.dto.Ubicacion.UbicacionResponse;
 import com.emmadev.bungalows.entity.Ubicacion;
 import com.emmadev.bungalows.repository.UbicacionRespository;
 import lombok.AllArgsConstructor;

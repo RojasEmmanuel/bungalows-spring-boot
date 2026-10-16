@@ -1,7 +1,7 @@
 package com.emmadev.bungalows.service;
 
-import com.emmadev.bungalows.DTO.Documento.DocumentoRequest;
-import com.emmadev.bungalows.DTO.Documento.DocumentoResponse;
+import com.emmadev.bungalows.dto.Documento.DocumentoRequest;
+import com.emmadev.bungalows.dto.Documento.DocumentoResponse;
 import com.emmadev.bungalows.entity.Documento;
 import com.emmadev.bungalows.repository.DocumentoRepository;
 import lombok.AllArgsConstructor;

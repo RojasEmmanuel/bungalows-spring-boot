@@ -1,7 +1,7 @@
 package com.emmadev.bungalows.controller;
 
-import com.emmadev.bungalows.DTO.Confidencial.ConfidencialPatch;
-import com.emmadev.bungalows.DTO.Confidencial.ConfidencialResponse;
+import com.emmadev.bungalows.dto.Confidencial.ConfidencialPatch;
+import com.emmadev.bungalows.dto.Confidencial.ConfidencialResponse;
 import com.emmadev.bungalows.service.ConfidencialService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

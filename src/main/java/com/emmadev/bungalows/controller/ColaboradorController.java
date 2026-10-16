@@ -1,6 +1,6 @@
 package com.emmadev.bungalows.controller;
 
-import com.emmadev.bungalows.DTO.Colaborador.*;
+import com.emmadev.bungalows.dto.Colaborador.*;
 import com.emmadev.bungalows.service.ColaboradorService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

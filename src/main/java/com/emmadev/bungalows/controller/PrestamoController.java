@@ -1,6 +1,6 @@
 package com.emmadev.bungalows.controller;
 
-import com.emmadev.bungalows.DTO.Prestamo.*;
+import com.emmadev.bungalows.dto.Prestamo.*;
 import com.emmadev.bungalows.service.PrestamoService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

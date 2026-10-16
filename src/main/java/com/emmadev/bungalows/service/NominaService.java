@@ -1,9 +1,6 @@
 package com.emmadev.bungalows.service;
 
-import com.emmadev.bungalows.DTO.Nomina.DeduccionRequest;
-import com.emmadev.bungalows.DTO.Nomina.NominaPdfModel;
-import com.emmadev.bungalows.DTO.Nomina.NominaRequest;
-import com.emmadev.bungalows.DTO.Nomina.PercepcionRequest;
+import com.emmadev.bungalows.dto.Nomina.*;
 import com.emmadev.bungalows.Enums.TipoDeduccion;
 import com.emmadev.bungalows.Enums.TipoDocumento;
 import com.emmadev.bungalows.entity.*;
@@ -13,15 +10,15 @@ import com.emmadev.bungalows.service.Logos.LogoService;
 import com.emmadev.bungalows.utils.DateFormatter;
 import com.emmadev.bungalows.utils.MoneyFormatter;
 import lombok.AllArgsConstructor;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.Base64;
+import java.time.LocalDate;
 import java.util.List;
+
 
 @Service
 @AllArgsConstructor
@@ -98,18 +95,87 @@ public class NominaService {
     }
 
 
+    public NominaResumenResponse getResumen(Integer ejercicio, LocalDate fechaInicio, LocalDate fechaFin) {
+        if ((fechaInicio == null) != (fechaFin == null)) {
+            throw new IllegalArgumentException(
+                    "Debes proporcionar ambas fechas."
+            );
+        }
+
+        if (fechaInicio != null && fechaInicio.isAfter(fechaFin)) {
+            throw new IllegalArgumentException(
+                    "La fecha inicial no puede ser posterior a la final."
+            );
+        }
+
+        if (fechaInicio != null && ejercicio != null) {
+            throw new IllegalArgumentException(
+                    "Utiliza el ejercicio o el rango de fechas, no ambos."
+            );
+        }
+
+        if (ejercicio != null && ejercicio < 1900) {
+            throw new IllegalArgumentException("Ejercicio inválido.");
+        }
+
+        return repository.obtenerResumen(
+                ejercicio, fechaInicio, fechaFin
+        );
+    }
+
+
+    // busca todas las nominas por medio de paginación.
+    public Page<NominaListadoResponse> getNominas(
+            Integer ejercicio,
+            LocalDate fechaInicio,
+            LocalDate fechaFin,
+            String colaborador,
+            Pageable pageable
+    ) {
+        if ((fechaInicio == null) != (fechaFin == null)) {
+            throw new IllegalArgumentException(
+                    "Debes proporcionar ambas fechas."
+            );
+        }
+
+        if (fechaInicio != null && fechaInicio.isAfter(fechaFin)) {
+            throw new IllegalArgumentException(
+                    "La fecha inicial no puede ser posterior a la final."
+            );
+        }
+
+        if (fechaInicio != null && ejercicio != null) {
+            throw new IllegalArgumentException(
+                    "Utiliza el ejercicio o el rango de fechas, no ambos."
+            );
+        }
+
+        String nombre = colaborador == null || colaborador.isBlank()
+                ? null
+                : colaborador.trim();
+
+        return repository.buscarNominas(
+                ejercicio, fechaInicio, fechaFin, nombre, pageable
+        );
+    }
+
+
+
+    // GENERA EL PDF DE UNA NOMINA
     @Transactional(readOnly = true)
     public byte[] generarPdfNomina(Long id) {
-        Nomina nomina = repository.findWithPercepcionesById(id)
-                .orElseThrow(() ->
-                        new IllegalArgumentException(
-                                "No existe la nómina con ID: " + id
-                        ));
+        Nomina nomina = getById(id);
 
         repository.findWithDeduccionesById(id);
 
         NominaPdfModel modelo = construirModelo(nomina);
         return documentoPdfService.generarPdf(TipoDocumento.NOMINA, modelo);
+    }
+
+    private Nomina getById(Long id){
+        return repository.findWithPercepcionesById(id)
+            .orElseThrow(() -> new IllegalArgumentException("No existe la nómina con ID: " + id
+        ));
     }
 
     private NominaPdfModel construirModelo(Nomina nomina) {

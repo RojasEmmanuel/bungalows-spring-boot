@@ -1,6 +1,6 @@
 package com.emmadev.bungalows.service;
 
-import com.emmadev.bungalows.DTO.Colaborador.*;
+import com.emmadev.bungalows.dto.Colaborador.*;
 import com.emmadev.bungalows.entity.Colaborador;
 import com.emmadev.bungalows.repository.ColaboradorRepository;
 import com.emmadev.bungalows.utils.FechaUtils;

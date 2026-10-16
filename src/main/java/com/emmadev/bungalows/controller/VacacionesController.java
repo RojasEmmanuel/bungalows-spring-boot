@@ -1,9 +1,9 @@
 package com.emmadev.bungalows.controller;
 
-import com.emmadev.bungalows.DTO.Vacaciones.VacacionesPatch;
-import com.emmadev.bungalows.DTO.Vacaciones.VacacionesRequest;
-import com.emmadev.bungalows.DTO.Vacaciones.VacacionesResponse;
-import com.emmadev.bungalows.DTO.Vacaciones.VacacionesSImpleResponse;
+import com.emmadev.bungalows.dto.Vacaciones.VacacionesPatch;
+import com.emmadev.bungalows.dto.Vacaciones.VacacionesRequest;
+import com.emmadev.bungalows.dto.Vacaciones.VacacionesResponse;
+import com.emmadev.bungalows.dto.Vacaciones.VacacionesSImpleResponse;
 import com.emmadev.bungalows.service.VacacionesService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
