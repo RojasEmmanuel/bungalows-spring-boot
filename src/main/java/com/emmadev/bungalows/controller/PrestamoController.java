@@ -22,6 +22,12 @@ public class PrestamoController {
         return service.getDeudas();
     }
 
+
+    @GetMapping("/colaborador/{colaboradorId}")
+    public DeudaResponse getDeudaByColaborador(@PathVariable Long colaboradorId){
+        return service.getDeudaColaborador(colaboradorId);
+    }
+
     // detalla cada uno de los prestaos de un colaborador.
     @GetMapping("/{colaboradorId}")
     public List<PrestamoResponse> getPrestamosByColaborador(@PathVariable Long colaboradorId){

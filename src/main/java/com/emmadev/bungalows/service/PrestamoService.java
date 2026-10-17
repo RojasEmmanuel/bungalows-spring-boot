@@ -241,6 +241,38 @@ public class PrestamoService {
                 .toList();
     }
 
+    // retorna la deuda general de un colaborador.
+    @Transactional(readOnly = true)
+    public DeudaResponse getDeudaColaborador(Long colaboradorId){
+
+        Colaborador colaborador = colaboradorQuery.getById(colaboradorId);
+        List<Prestamo> prestamos = getPrestamosPendientesByColaboradorId(colaboradorId);
+
+        BigDecimal prestado = prestamos.stream()
+                .map(p -> p.getMonto().add(p.getMontoPagado()))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal pagado = prestamos.stream()
+                .map(Prestamo::getMontoPagado)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal pendiente = prestamos.stream()
+                .map(Prestamo::getMonto)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        return new DeudaResponse(
+                colaborador.getId(),
+                colaborador.getNombreCompleto(),
+                colaborador.getFotografia(),
+                colaborador.getLaboral().getPuesto().getNombre(),
+                colaborador.getLaboral().getUbicacion().getNombre(),
+                prestamos.size(),
+                prestado,
+                pagado,
+                pendiente
+        );
+    }
+
 
     public void eliminarPrestamo(Long id){
         repository.delete(getById(id));
