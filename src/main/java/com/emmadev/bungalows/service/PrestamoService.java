@@ -69,9 +69,7 @@ public class PrestamoService {
                 );
 
         if (prestamos.isEmpty()) {
-            throw new IllegalArgumentException(
-                    "El colaborador no tiene préstamos pendientes de pago"
-            );
+            return List.of();
         }
 
         return prestamos;
