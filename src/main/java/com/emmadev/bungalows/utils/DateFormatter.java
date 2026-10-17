@@ -16,6 +16,11 @@ public class DateFormatter {
     }
 
     public static String periodo(LocalDate inicio, LocalDate fin) {
+
+        if(inicio.isAfter(fin)){
+            throw new IllegalArgumentException("La fecha de inicio debe ser antes de la fecha fin");
+        }
+
         DateTimeFormatter diaMes = DateTimeFormatter.ofPattern(
                 "dd 'de' MMMM", new Locale("es", "MX")
         );
