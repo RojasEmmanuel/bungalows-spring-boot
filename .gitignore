@@ -33,3 +33,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+target/
+.git/
+.idea/
+*.iml
+.vscode/
+*.log
