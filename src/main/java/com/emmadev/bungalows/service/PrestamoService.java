@@ -305,6 +305,7 @@ public class PrestamoService {
                 prestamo.getColaborador().getNombreCompleto(),
                 prestamo.getColaborador().getLaboral().getPuesto().getNombre(),
                 prestamo.getColaborador().getLaboral().getUbicacion().getNombre(),
+                prestamo.getConcepto(),
                 prestamo.getMonto(),
                 prestamo.getMontoPagado(),
                 prestamo.getFechaPrestamo(),

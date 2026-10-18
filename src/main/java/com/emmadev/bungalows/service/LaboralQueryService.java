@@ -15,6 +15,7 @@ public class LaboralQueryService {
     public long getTotalColaboradoresByUbicacion(Ubicacion ubicacion){
         return repository.findByUbicacion(ubicacion).stream().count();
     }
+
     public long getTotalColaboradoresActivosByUbicacion(Ubicacion ubicacion){
         return repository.findByUbicacion(ubicacion)
                 .stream()
