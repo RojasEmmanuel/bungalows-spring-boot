@@ -14,15 +14,19 @@ public class FechaUtils {
         throw  new UnsupportedOperationException("Esta clase no es instanciable");
     }
 
-    public static int getAnios(LocalDate fechaInicial){
+    public static int getAnios(LocalDate fecha){
 
-        if (fechaInicial == null) {
+        if (fecha == null) {
             throw new IllegalArgumentException("La fecha inicial no puede ser nula");
         }
-        return Period.between(fechaInicial, LocalDate.now()).getYears();
+        return Period.between(fecha, LocalDate.now()).getYears();
     }
 
     public static int getDiasVacaciones(int anios) {
+
+        if(anios < 0 ){
+            throw  new IllegalArgumentException("No puede haber antiguedades negativas");
+        }
 
         return switch (anios) {
             case 0 -> 0;
@@ -60,6 +64,6 @@ public class FechaUtils {
             throw  new IllegalArgumentException("Ni una fecha puede ser nula");
         }
 
-        return ((int) ChronoUnit.DAYS.between(inicio, fin));
+        return ((int) ChronoUnit.DAYS.between(inicio, fin)+1); // se agrega el dia de inicio
     }
 }
