@@ -3,6 +3,7 @@ package com.emmadev.bungalows.dto.Vacaciones;
 import com.emmadev.bungalows.Enums.EstatusVacaciones;
 import jakarta.validation.constraints.NotNull;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record VacacionesPatch(
@@ -10,6 +11,7 @@ public record VacacionesPatch(
         Long id,
         LocalDate fechaInicio,
         LocalDate fechaFin,
-        EstatusVacaciones estatusVacaciones
+        EstatusVacaciones estatusVacaciones,
+        BigDecimal cantidadPagada
 ) {
 }

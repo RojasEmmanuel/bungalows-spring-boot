@@ -1,5 +1,6 @@
 package com.emmadev.bungalows.dto.Vacaciones;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record VacacionesResponse(
@@ -10,6 +11,8 @@ public record VacacionesResponse(
         LocalDate fechaInicio,
         LocalDate fechaFin,
         Integer diasOcupados,
-        String estatus
+        LocalDate fechaRegreso,
+        String estatus,
+        BigDecimal cantidadPagada
 ) {
 }

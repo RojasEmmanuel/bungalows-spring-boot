@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -30,6 +31,14 @@ public class Vacaciones {
 
     @Column(name = "dias_ocupados")
     private Integer diasOcupados;
+
+    @Column(name = "fecha_regreso")
+    private LocalDate fechaRegreso;
+
+
+    // en el caso en que las vacaciones se paguen. 
+    @Column(name = "cantidad_pagada")
+    private BigDecimal cantidadPagada;
 
 
     @Enumerated(EnumType.STRING)

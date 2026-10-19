@@ -27,7 +27,6 @@ public class NominaService {
     private final LaboralService laboralService;
     private final DocumentoPdfService documentoPdfService;
     private final LogoService logoService;
-
     @Transactional
     public Long crearNomina(NominaRequest request){
 

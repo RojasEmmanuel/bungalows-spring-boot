@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <style>
+        @page {
+            size: A4;
+            margin: 25mm 20mm;
+        }
+
+        body {
+            font-family: 'NotoSans', sans-serif;
+            font-size: 10px;
+            color: #000;
+            line-height: 1.5;
+        }
+
+        /* --- ENCABEZADO --- */
+        .header-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+        }
+        .header-table td {
+            vertical-align: middle;
+        }
+        .logo-container {
+            width: 30%;
+            text-align: left;
+        }
+        .logo-container img {
+            max-height: 80px;
+            max-width: 100%;
+        }
+        .empresa-container {
+            width: 70%;
+            text-align: center;
+            font-weight: bold;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        /* --- CONTENIDO --- */
+        .fecha-asunto {
+            width: 100%;
+            text-align: right;
+            margin-bottom: 30px;
+        }
+
+        .parrafo {
+            text-align: justify;
+            text-indent: 28px;
+            margin-bottom: 12px;
+        }
+
+        .hago-constar {
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 80px 0;
+            letter-spacing: 1px;
+        }
+
+        /* --- FIRMAS --- */
+        .firmas-container {
+            margin-top: 100px;
+            text-align: center;
+            page-break-inside: avoid;
+        }
+        .linea-firma {
+            width: 250px;
+            border-top: 1px solid #000;
+            margin: 0 auto 10px auto;
+        }
+        .nombre-firma {
+            font-weight: bold;
+            font-size: 10px;
+            text-transform: uppercase;
+        }
+
+        /* --- PIE DE PÁGINA --- */
+        .footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 9px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 1. ENCABEZADO -->
+<table class="header-table">
+    <tr>
+        <td class="logo-container">
+            <img th:if="${modelo.logoPath != null && !modelo.logoPath.isEmpty()}"
+                 th:src="${modelo.logoPath}" alt="Logo Empresa"/>
+        </td>
+        <td class="empresa-container">
+            <div th:text="'&quot;' + ${modelo.empresa} + '&quot;'"></div>
+            <div th:text="'R.F.C. ' + ${modelo.rfc}"></div>
+            <div th:text="'RÉGIMEN FISCAL: ' + ${modelo.regimenFiscal}"></div>
+        </td>
+    </tr>
+</table>
+
+<!-- 2. LUGAR, FECHA Y ASUNTO -->
+<div class="fecha-asunto">
+    <p style="margin: 0;" th:text="${modelo.lugar + ', ' + modelo.fecha}"></p>
+    <br/>
+    <p style="margin: 0;">
+        <b>ASUNTO: </b> <span th:text="${modelo.asunto}"></span>
+    </p>
+    <br/>
+</div>
+
+<!-- 3. PÁRRAFO INICIAL -->
+<p class="parrafo">
+    LA QUE SUSCRIBE C. <span th:text="${modelo.colaborador}"></span>,
+    CON NÚMERO DE IDENTIFICACIÓN: <b th:text="${modelo.numeroIdentificacion}"></b>
+    DEL ÁREA DE <span th:text="${modelo.area}"></span> DE <span th:text="${modelo.empresa}"></span>
+</p>
+
+<!-- 4. TEXTO CENTRAL -->
+<div class="hago-constar">
+    HAGO CONSTAR
+</div>
+
+<!-- 5. PÁRRAFOS FINALES -->
+<!-- Aquí estaba el error de XML: faltaba cerrar correctamente el texto y el </p> -->
+<p class="parrafo">
+    QUE SE ME ESTÁN PROPORCIONANDO <b th:text="${modelo.numeroDias + ' DÍAS'}"></b>
+    DEL PERIODO VACACIONAL COMPRENDIDO DEL <b th:text="${modelo.fechaInicio}"></b>
+    AL <b th:text="${modelo.fechaFin}"></b>,
+    EJERCIENDO <span th:text="${modelo.numeroDias}"></span> DÍAS, CON GOCE DE SUELDO.
+</p>
+
+<p class="parrafo">
+    REINCORPORÁNDOME A MIS ACTIVIDADES LABORALES EL <span th:text="${modelo.fechaRegreso}"></span>.
+</p>
+
+<!-- 6. FIRMAS -->
+<div class="firmas-container">
+    <p style="font-size: 10px; margin-bottom: 60px;">DE CONFORMIDAD</p>
+    <div class="linea-firma"></div>
+    <div class="nombre-firma" th:text="${modelo.colaborador}"></div>
+</div>
+
+<!-- 7. PIE DE PÁGINA -->
+<div class="footer">
+    <!-- Se asume que en tu modelo el lugar o la dirección de la empresa ya están en mayúsculas -->
+    <p style="margin: 0;" th:text="${modelo.lugar}"></p>
+</div>
+
+</body>
+</html>

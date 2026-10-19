@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <style>
+        @page {
+            size: A4;
+            margin: 25mm 20mm;
+        }
+
+        body {
+            font-family: 'NotoSans', sans-serif;
+            font-size: 10px;
+            color: #000;
+            line-height: 1.5;
+        }
+
+        /* --- ENCABEZADO --- */
+        .header-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 50px;
+        }
+        .header-table td {
+            vertical-align: middle;
+        }
+        .logo-container {
+            width: 30%;
+            text-align: left;
+        }
+        .logo-container img {
+            max-height: 80px;
+            max-width: 100%;
+        }
+        .empresa-container {
+            width: 70%;
+            text-align: center;
+            font-weight: bold;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        /* --- CONTENIDO --- */
+        .fecha-asunto {
+            width: 100%;
+            text-align: right;
+            margin-bottom: 40px;
+        }
+
+        .parrafo {
+            text-align: justify;
+            text-indent: 28px;
+            margin-bottom: 12px;
+        }
+
+        /* --- FIRMA --- */
+        .firmas-container {
+            margin-top: 120px;
+            text-align: center;
+            page-break-inside: avoid;
+        }
+        .linea-firma {
+            width: 250px;
+            border-top: 1px solid #000;
+            margin: 0 auto 10px auto;
+        }
+        .nombre-firma {
+            font-weight: bold;
+            font-size: 10px;
+            text-transform: uppercase;
+        }
+
+        /* --- PIE DE PÁGINA --- */
+        .footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 9px;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 0 20px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 1. ENCABEZADO (Logo + Datos Empresa) -->
+<table class="header-table">
+    <tr>
+        <td class="logo-container">
+            <!-- AHORA SÍ: Renderizamos el logo usando el campo logoPath de tu record -->
+            <img th:if="${modelo.logoPath != null && !modelo.logoPath.isEmpty()}"
+                 th:src="${modelo.logoPath}" alt="Logo Empresa"/>
+        </td>
+        <td class="empresa-container">
+            <!-- Corregido: empresa, rfc, empresaRegimenFiscal -->
+            <div th:text="'&quot;' + ${modelo.empresa} + '&quot;'"></div>
+            <div th:text="'R.F.C. ' + ${modelo.empresaRfc}"></div>
+            <div th:text="'RÉGIMEN FISCAL: ' + ${modelo.empresaRegimenFiscal}"></div>
+        </td>
+    </tr>
+</table>
+
+<!-- 2. FECHA Y ASUNTO -->
+<div class="fecha-asunto">
+    <p style="margin: 0;">
+        PUERTO ESCONDIDO, SANTA MARIA COLOTEPEC, POCHUTLA OAXACA A
+        <span th:text="${modelo.fecha}"></span>
+    </p>
+    <br/>
+    <p style="margin: 0;">
+        <b>ASUNTO: </b> <span th:text="${modelo.asunto}"></span>
+    </p>
+    <br/>
+</div>
+
+<!-- 3. CUERPO DEL RECIBO -->
+<p class="parrafo" style="text-indent: 0;">
+    EL QUE SUSCRIBE <b>C</b>. <span th:text="${modelo.colaborador}"></span>,
+    CON NÚMERO DE IDENTIFICACIÓN OFICIAL <b th:text="${modelo.numeroIdentificacion}"></b>
+    <!-- Corregido: empresaPropietario y empresa -->
+    HAGO CONSTAR QUE HE RECIBIDO DEL <b th:text="${modelo.empresaPropietario}"></b>, GERENTE GENERAL
+    DE <span th:text="${modelo.empresa}"></span> LA CANTIDAD DE:
+    <b th:text="'$ ' + ${modelo.cantidad}"></b>
+    (<span th:text="${modelo.cantidadLetra}"></span>).
+</p>
+
+<p class="parrafo">
+    POR CONCEPTO DEL PERIODO VACACIONAL:
+</p>
+
+<!-- 4. FIRMA -->
+<div class="firmas-container">
+    <p style="font-size: 10px; margin-bottom: 50px;">RECIBÍ</p>
+    <div class="linea-firma"></div>
+    <div class="nombre-firma" th:text="${modelo.colaborador}"></div>
+</div>
+
+<!-- 5. PIE DE PÁGINA -->
+<div class="footer">
+    <!-- Corregido: empresaDireccion -->
+    <p style="margin: 0;" th:text="${modelo.empresaDireccion}"></p>
+</div>
+
+</body>
+</html>

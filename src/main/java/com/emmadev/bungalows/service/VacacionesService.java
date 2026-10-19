@@ -1,18 +1,20 @@
 package com.emmadev.bungalows.service;
 
-import com.emmadev.bungalows.dto.Vacaciones.VacacionesPatch;
-import com.emmadev.bungalows.dto.Vacaciones.VacacionesRequest;
-import com.emmadev.bungalows.dto.Vacaciones.VacacionesResponse;
-import com.emmadev.bungalows.dto.Vacaciones.VacacionesSImpleResponse;
-import com.emmadev.bungalows.entity.Colaborador;
-import com.emmadev.bungalows.entity.Vacacional;
-import com.emmadev.bungalows.entity.Vacaciones;
+import com.emmadev.bungalows.Enums.EstatusVacaciones;
+import com.emmadev.bungalows.Enums.TipoDocumento;
+import com.emmadev.bungalows.dto.Vacaciones.*;
+import com.emmadev.bungalows.entity.*;
 import com.emmadev.bungalows.repository.VacacionesRespository;
+import com.emmadev.bungalows.service.Documento.DocumentoPdfService;
+import com.emmadev.bungalows.service.Logos.LogoService;
+import com.emmadev.bungalows.utils.DateFormatter;
 import com.emmadev.bungalows.utils.FechaUtils;
+import com.emmadev.bungalows.utils.MoneyFormatter;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -22,6 +24,8 @@ public class VacacionesService {
     private final VacacionalService vacacionalService;
     private final ColaboradorQueryService queryService;
     private final VacacionesRespository respository;
+    private final LogoService logoService;
+    private final DocumentoPdfService documentoPdfService;
 
     @Transactional
     public void registrarVacaciones(VacacionesRequest request){
@@ -47,8 +51,17 @@ public class VacacionesService {
         vacaciones.setPeriodoVacacional(vacacional);
         vacaciones.setFechaInicio(request.fechaInicio());
         vacaciones.setFechaFin(request.fechaFin());
-        vacaciones.setEstatus(request.estatusVacaciones());
         vacaciones.setDiasOcupados(diasOcupados);
+
+        vacaciones.setEstatus(request.estatusVacaciones());
+
+        if(request.estatusVacaciones().equals(EstatusVacaciones.PAGADA) && request.cantidadPagada() != null){
+            vacaciones.setCantidadPagada(request.cantidadPagada());
+        }
+
+        //fecha de regreso un día despues.
+        vacaciones.setFechaRegreso(request.fechaFin().plusDays(1));
+
         vacaciones.setLaboral(colaborador.getLaboral());
         vacacionalService.actualizarVacacional(diasOcupados, vacacional);
 
@@ -79,6 +92,10 @@ public class VacacionesService {
             vacaciones.setEstatus(patch.estatusVacaciones());
         }
 
+        if(patch.estatusVacaciones().equals(EstatusVacaciones.PAGADA) && patch.cantidadPagada() != null){
+            vacaciones.setCantidadPagada(patch.cantidadPagada());
+        }
+
         respository.save(vacaciones);
     }
 
@@ -93,7 +110,9 @@ public class VacacionesService {
                         vacaciones.getFechaInicio(),
                         vacaciones.getFechaFin(),
                         vacaciones.getDiasOcupados(),
-                        vacaciones.getEstatus().getNombre()
+                        vacaciones.getFechaRegreso(),
+                        vacaciones.getEstatus().getNombre(),
+                        vacaciones.getCantidadPagada()
                 )
         ).toList();
     }
@@ -106,13 +125,75 @@ public class VacacionesService {
                 vacaciones.getId(),
                 vacaciones.getFechaInicio(),
                 vacaciones.getFechaFin(),
-                vacaciones.getEstatus().getNombre()
+                vacaciones.getEstatus().getNombre(),
+                vacaciones.getCantidadPagada()
         );
     }
 
     @Transactional
     public void eliminarVacaciones(Long id){
         respository.delete(getById(id));
+    }
+
+
+    @Transactional(readOnly = true)
+    public byte[] generarDocumento(Long id){
+        Vacaciones vacaciones = getById(id);
+
+
+        if(vacaciones.getEstatus().equals(EstatusVacaciones.PAGADA)){
+            VacacionesReciboModel modelo = construirModeloReciboPdf(vacaciones);
+            return documentoPdfService.generarPdf(TipoDocumento.RECIBO_VACACIONES, modelo);
+        }
+
+        VacacionesConstanciaModel modelo = construirModeloConstanciaPdf(vacaciones);
+       return  documentoPdfService.generarPdf(TipoDocumento.CONSTANCIA_VACACIONES, modelo);
+    }
+
+    private VacacionesConstanciaModel construirModeloConstanciaPdf(Vacaciones vacaciones){
+
+        Empresa empresa = vacaciones.getLaboral().getUbicacion().getEmpresa();
+        Colaborador colaborador = vacaciones.getLaboral().getColaborador();
+        Laboral laboral = vacaciones.getLaboral();
+        Vacacional vacacional = vacaciones.getPeriodoVacacional();
+
+        return new VacacionesConstanciaModel(
+                empresa.getNombreLegal().toUpperCase(),
+                empresa.getRfc(),
+                empresa.getRegimenFiscal().toUpperCase(),
+                logoService.obtenerLogoBase64(empresa.getLogoPath()),
+                empresa.getDireccion().toUpperCase(),
+                DateFormatter.formal(LocalDate.now()).toUpperCase(),
+                "CONSTANCIA DE VACACIONES",
+                colaborador.getNombreCompleto().toUpperCase(),
+                colaborador.getId().toString(),
+                laboral.getUbicacion().getNombre().toUpperCase(),
+                vacaciones.getDiasOcupados().toString(),
+                DateFormatter.larga(vacaciones.getFechaInicio()).toUpperCase(),
+                DateFormatter.larga(vacaciones.getFechaFin()).toUpperCase(),
+                vacacional.getAnio().toString(),
+                DateFormatter.larga(vacaciones.getFechaRegreso()).toUpperCase()
+        );
+    }
+
+    private VacacionesReciboModel construirModeloReciboPdf(Vacaciones vacaciones){
+        Empresa empresa = vacaciones.getLaboral().getUbicacion().getEmpresa();;
+        Colaborador colaborador = vacaciones.getLaboral().getColaborador();
+
+        return new VacacionesReciboModel(
+                empresa.getNombreLegal().toUpperCase(),
+                empresa.getRfc(),
+                empresa.getRegimenFiscal().toUpperCase(),
+                empresa.getDireccion().toUpperCase(),
+                empresa.getResponsable().toUpperCase(),
+                logoService.obtenerLogoBase64(empresa.getLogoPath()),
+                DateFormatter.formal(LocalDate.now()).toUpperCase(),
+                "RECIBO DE PAGO DE VACACIONES",
+                colaborador.getNombreCompleto().toUpperCase(),
+                colaborador.getId().toString(),
+                MoneyFormatter.numero(vacaciones.getCantidadPagada().doubleValue()),
+                MoneyFormatter.letra(vacaciones.getCantidadPagada().doubleValue()).toUpperCase()
+        );
     }
 
     private Vacaciones getById(Long id){

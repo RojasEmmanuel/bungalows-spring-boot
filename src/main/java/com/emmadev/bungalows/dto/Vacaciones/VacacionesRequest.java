@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record VacacionesRequest(
@@ -14,6 +15,7 @@ public record VacacionesRequest(
         LocalDate fechaFin,
         @NotNull(message = "Se requiere el id del colaborador")
         Long colaboradorId,
-        EstatusVacaciones estatusVacaciones
+        EstatusVacaciones estatusVacaciones,
+        BigDecimal cantidadPagada
 ) {
 }
