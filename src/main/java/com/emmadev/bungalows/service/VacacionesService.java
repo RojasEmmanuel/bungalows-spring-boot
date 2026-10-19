@@ -85,6 +85,9 @@ public class VacacionesService {
                 vacaciones.getPeriodoVacacional().setDiasOcupados(
                         vacaciones.getPeriodoVacacional().getDiasOcupados() + intervalo
                 );
+
+                vacaciones.setFechaInicio(patch.fechaInicio());
+                vacaciones.setFechaFin(patch.fechaFin());
             }
         }
 
