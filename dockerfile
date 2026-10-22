@@ -1,5 +1,5 @@
 # ============ Etapa 1: Builder ============
-FROM eclipse-temurin:21-jdk-alpine AS builder
+FROM eclipse-temurin:21-jdk-alpine-3.23 AS builder
 WORKDIR /app
 
 COPY .mvn/ .mvn/

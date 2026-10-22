@@ -78,7 +78,8 @@ public class VacacionesService {
             int diasOcupadosVacacional = vacaciones.getPeriodoVacacional().getDiasOcupados();
 
             if(intervalo<=disponible){
-                vacaciones.getPeriodoVacacional().setDiasOcupados(diasOcupadosVacacional - vacaciones.getDiasOcupados());
+                vacaciones.getPeriodoVacacional().
+                        setDiasOcupados(diasOcupadosVacacional - vacaciones.getDiasOcupados());
 
                 vacaciones.setDiasOcupados(intervalo);
                 vacaciones.getPeriodoVacacional().setDiasDisponibles(disponible-intervalo);
